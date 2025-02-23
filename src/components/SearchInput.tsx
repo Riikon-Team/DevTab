@@ -39,7 +39,7 @@ export default defineComponent({
     return () => (
       <input
         type="text"
-        class="form-control _controls border-0"
+        class="form-control  border-0 _controls"
         style=""
         placeholder="Search..."
         value={query.value}

@@ -42,7 +42,7 @@ export default defineComponent({
     return () => (
       <div class="dropdown _controls">
         <button 
-          class={`btn dropdown-toggle _controls` + (props.hasBorder ? ' btn-outline-secondary' : '')}
+          class={`btn dropdown-toggle` + (props.hasBorder ? ' btn-outline-secondary' : '')}
           type="button" 
           onClick={toggleDropdown}
         >
