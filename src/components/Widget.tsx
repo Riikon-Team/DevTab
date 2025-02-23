@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue';
+import {defineComponent, ref} from 'vue';
 import GithubStats from './GithubStats';
 
 export default defineComponent({
@@ -19,21 +19,26 @@ export default defineComponent({
           left: 0,
           top: 0,
           bottom: 0,
-          width: isOpen.value ? '350px' : '40px',
+          width: isOpen.value ? '350px' : '60px',
           transition: 'width 0.3s ease',
           overflow: 'hidden'
         }}
       >
         <div class="d-flex justify-content-end p-2">
-          <button 
+          <button
             class="btn btn-sm btn-link text-white p-0"
             onClick={toggleWidget}
           >
-            <i class={`bi bi-chevron-${isOpen.value ? 'left' : 'right'}`}></i>
+            {isOpen.value ? <i class="bi bi-chevron-left"></i> :
+              <div class="d-flex align-items-center">
+                <i class="bi bi-github h4 m-0 me-2"></i>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            }
           </button>
         </div>
-        
-        <div 
+
+        <div
           class="widget-content px-3"
           style={{
             opacity: isOpen.value ? 1 : 0,
@@ -41,7 +46,7 @@ export default defineComponent({
             visibility: isOpen.value ? 'visible' : 'hidden'
           }}
         >
-          <GithubStats />
+          <GithubStats/>
         </div>
       </div>
     );
