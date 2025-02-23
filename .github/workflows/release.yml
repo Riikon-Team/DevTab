@@ -3,7 +3,11 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*' # Trigger on version tags
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   build:
@@ -11,6 +15,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,11 +33,17 @@ jobs:
       - name: Zip dist folder
         run: cd dist && zip -r ../devtab.zip *
 
+      - name: Get version from package.json
+        id: version
+        run: |
+          echo "version=$(node -p "import('./package.json', { assert: { type: 'json' } }).then(m => m.default.version)")" >> $GITHUB_OUTPUT
+
       - name: Create Release
-        id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: devtab.zip
+          name: Release v${{ steps.version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
