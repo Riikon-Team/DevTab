@@ -1,0 +1,43 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+*._controls{
+  background-color: #212529be!important;
+  color: #ebebeb!important;
+  ::placeholder {
+    color: white!important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+._controls .dropdown-item{
+  color: #ebebeb!important;
+  background-color: transparent!important;
+  &:hover{
+    background-color: #343a40be!important;
+  }
+}
+
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+
+}
