@@ -13,8 +13,8 @@
     "version:patch": "npm version patch -m \"Release v%s\"",
     "version:minor": "npm version minor -m \"Release v%s\"",
     "version:major": "npm version major -m \"Release v%s\"",
-    "postversion": "git push && git push --tags",
-    "preversion": "node scripts/sync-version.js pre"
+    "preversion": "node scripts/sync-version.js pre",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",
