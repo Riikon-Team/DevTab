@@ -1,4 +1,9 @@
 @import './base.css';
+@import './clock.css';
+@font-face {
+  font-family: 'DS-Digital';
+  src: url('/assets/fonts/DS-DIGII.TTF') format('truetype');
+}
 
 #app {
   font-weight: normal;
@@ -13,13 +18,11 @@ a,
 }
 
 *._controls{
-  background-color: #212529be!important;
+  background-color: #232323b5!important;
   color: #ebebeb!important;
-  ::placeholder {
-    color: white!important;
-  }
-  &:focus {
-    outline: none;
+  backdrop-filter: blur(5px);
+  &::placeholder {
+    color: #ebebeb!important;
   }
 }
 
@@ -30,6 +33,53 @@ a,
     background-color: #343a40be!important;
   }
 }
+/* ======================== */
+.bookmark-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bookmark-item:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.bookmark-item img {
+  transition: all 0.3s ease;
+}
+
+.bookmark-item:hover img {
+  transform: scale(1.1);
+}
+/* ======================== */
+.modal-content{
+  background-color: #a3a3a311!important;
+  color: #ebebeb!important;
+  backdrop-filter: blur(5px);
+
+}
+
+.modal-content input.form-control {
+  background-color: #ffffff09!important;
+  color: #ffffff!important;
+  border: 1px solid #ebebeb!important;
+  &::placeholder {
+    color: rgb(152, 152, 152)!important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.bookmark-item>div{
+  opacity: 0;
+  transition: all .2s ;
+}
+
+.bookmark-item:hover >div{
+  opacity: 1;
+}
+
 
 
 @media (hover: hover) {
@@ -41,3 +91,27 @@ a,
 @media (min-width: 1024px) {
 
 }
+
+*::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #ffffff00;
+}
+
+*::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: #f5f5f500;
+}
+
+*::-webkit-scrollbar-thumb
+{
+	background-color: #74747467;
+	border: 2px solid #55555500;
+}
+
+/* Add to your global CSS or component styles */
+.position-fixed {
+  transition: none !important;
+}
+

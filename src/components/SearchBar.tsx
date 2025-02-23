@@ -2,7 +2,7 @@ import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import SearchInput from './SearchInput';
 import ISelect from './ISelect';
-import * as constants from '../constants';
+import * as constants from '../constants/main';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -39,7 +39,7 @@ export default defineComponent({
       label: value,
     }));
     return () => (
-      <div class="input-group mb-3 position-relative rounded _controls">
+      <div class="input-group mb-3 position-relative rounded">
         <ISelect
           options={searchEngineOptions} 
           modelValue={props.searchEngine} 
@@ -50,7 +50,7 @@ export default defineComponent({
         />
         <SearchInput onSearch={props.onSearch} onEnter={props.onEnter} />
         <button class="btn btn-primary" onClick={props.onEnter}>
-          <i class="bi bi-search"></i> Search
+          <i class="bi bi-search"></i>
         </button>
         {props.searchSuggestions.length > 0 && (
           <div class="dropdown-menu show position-absolute w-100 _controls border-secondary" style="top: 100%; z-index: 1000;">
