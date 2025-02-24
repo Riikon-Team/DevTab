@@ -47,6 +47,14 @@ export default defineComponent({
           }}
         >
           <GithubStats/>
+
+          {/*Setting button*/}
+          <button
+            class="position-absolute btn btn-sm btn-link text-white p-0"
+            style={{bottom: "1rem", left: "1rem"}}
+          >
+            <i class="h4 bi bi-gear"></i>
+          </button>
         </div>
       </div>
     );
