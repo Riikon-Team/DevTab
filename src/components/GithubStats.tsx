@@ -57,6 +57,7 @@ export default defineComponent({
 
     return () => (
       <div class="github-stats text-white p-3 rounded bg-transparent position-relative">
+        {/*<p class="mb-3">Your Github stat</p>*/}
         {loading.value ? (
           <div class="text-center">
             <div class="spinner-border text-light" role="status">
