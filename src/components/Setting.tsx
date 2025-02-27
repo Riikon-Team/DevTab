@@ -1,5 +1,6 @@
-import {defineComponent, type PropType, ref} from "vue";
+import {defineComponent, type PropType, type Ref} from "vue";
 import '../assets/setting.css'
+import GithubSetting from "@/components/GithubSetting.tsx";
 
 export default defineComponent({
   name: 'Setting',
@@ -7,7 +8,7 @@ export default defineComponent({
     onClose: {
       type: Function as PropType<() => void>,
       required: true
-    }
+    },
   },
   setup(props) {
     // Currently support only closed and open popup
@@ -20,14 +21,20 @@ export default defineComponent({
            class="position-fixed"
       >
         {/*Main Setting Popup*/}
-        <div id="setting" class="p-2">
+        <div id="setting" class="rounded p-3">
           {/*Title and exit button*/}
           <div id="setting-header" class="d-flex justify-content-between">
             <h4 class="text-white mt-4">Setting</h4>
             <i class="cursor-pointer bi bi-x-lg" onClick={closeSetting}></i>
+          </div>
+          {/*Body setting*/}
+          <div id="setting-body">
+            <GithubSetting/>
           </div>
         </div>
       </div>
     )
   }
 })
+
+

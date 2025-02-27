@@ -15,8 +15,13 @@
     color: #ffffff;
 }
 
+#setting-container select, #setting-container option {
+    color: #000000;
+}
+
 #setting {
     width: 25rem;
+    background-color: #333333;
 }
 
 #setting-header {

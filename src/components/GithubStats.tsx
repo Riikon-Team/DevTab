@@ -11,12 +11,10 @@ export default defineComponent({
     const isEditing = ref(false);
     const username = ref(getStoredUsername());
     const newUsername = ref('');
-    // Default github param
-    const githubStyle = {
-      statCard: {theme: 'tokyonight'},
-      streak: {theme: 'tokyonight'},
-      topLanguage: {theme: 'tokyonight'}
-    }
+
+    const statTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
+    const streakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
+    const topLanguageTheme = ref(localStorage.getItem("githubTopLanguage") || "tokyonight")
 
     const loadStats = async () => {
       loading.value = true;
@@ -39,20 +37,8 @@ export default defineComponent({
       await loadStats();
     };
 
-    const loadGithubStyle = async () => {
-      const defaultTheme = 'tokyonight'
-      //Currently support theme parameter
-      const cardStyle = localStorage.getItem("githubStatCard") || defaultTheme
-      const streakStyle = localStorage.getItem("githubStreak") || defaultTheme
-      const topLanguageStyle = localStorage.getItem("githubTopLanguage") || defaultTheme
-      githubStyle.statCard = {theme: cardStyle}
-      githubStyle.streak = {theme: streakStyle}
-      githubStyle.topLanguage = {theme: topLanguageStyle}
-    }
-
     onMounted(() => {
       loadStats()
-      loadGithubStyle()
     });
 
     return () => (
@@ -113,7 +99,7 @@ export default defineComponent({
                 {/* GitHub Stats Card */}
                 <div class="mb-1">
                   <iframe
-                    src={`https://github-readme-stats.vercel.app/api?username=${username.value}&theme=${githubStyle.statCard.theme}&show_icons=true&hide_border=true&count_private=true`}
+                    src={`https://github-readme-stats.vercel.app/api?username=${username.value}&theme=${statTheme.value}&show_icons=true&hide_border=true&count_private=true`}
                     frameborder="0"
                     scrolling="no"
                     style={{
@@ -126,7 +112,7 @@ export default defineComponent({
                 {/* GitHub Streak Stats */}
                 <div class="mb-3">
                   <iframe
-                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${username.value}&theme=${githubStyle.streak.theme}&hide_border=true`}
+                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${username.value}&theme=${streakTheme.value}&hide_border=true`}
                     frameborder="0"
                     scrolling="no"
                     style={{
@@ -139,7 +125,7 @@ export default defineComponent({
                 {/* Top Languages Card */}
                 <div>
                   <iframe
-                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${githubStyle.topLanguage.theme}&hide_border=true&layout=compact`}
+                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${topLanguageTheme.value}&hide_border=true&layout=compact`}
                     frameborder="0"
                     scrolling="no"
                     style={{
