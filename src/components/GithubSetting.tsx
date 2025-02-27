@@ -1,24 +1,38 @@
-import {defineComponent, type Ref, ref, inject} from "vue";
-import GithubTheme from "@/enums/github-stat-theme.ts";
+import {defineComponent, type Ref, ref} from "vue";
+import {GithubTheme} from "@/enums/github-setting.ts";
 
 export default defineComponent({
   name: 'GithubSetting',
-  props: {
-    onStyleChange: {
-      type: Function<(ref: Ref, value: string) => void>,
-      required: true
-    }
-  },
+  // props: {
+  //   onStyleChange: {
+  //     type: Function<(ref: Ref, value: string) => void>,
+  //     required: true
+  //   }
+  // },
   setup(props) {
     const githubStatTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
     const githubStreakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
     const githubTopLanguageTheme = ref(localStorage.getItem("githubTopLanguage") || "tokyonight")
+    const githubTopLanguageCount = ref(localStorage.getItem("githubTopLanguageCount") || "6")
+    const githubTopLanguageLayout = ref(localStorage.getItem("githubTopLanguageLayout") || "compact")
+    const githubTopLanguageHide = ref(localStorage.getItem("githubTopLanguageHide") || "")
+
+    const countLanguage = isNaN(parseInt(githubTopLanguageCount.value)) ? 6 : parseInt(githubTopLanguageCount.value)
 
     const changeTheme = (themeType: string, component: Element, refElement: Ref) => {
       const value = component.options[component.selectedIndex].text
       if (value !== 'nothing') {
         localStorage.setItem(themeType, value)
-        props.onStyleChange(refElement, value)
+        refElement.value = value
+        // props.onStyleChange(refElement, value)
+      }
+    }
+
+    const changeInputValue = (type: string, component: Element, element: Ref) => {
+      const value = component.value
+      if (value) {
+        localStorage.setItem(type, value.toString())
+        element.value = value
       }
     }
 
@@ -26,6 +40,8 @@ export default defineComponent({
       <div class="mt-5">
         <h5>Github</h5>
         <hr class="mb-3"/>
+
+        {/*Stat Theme*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Github Stat Theme: </p>
           <select
@@ -33,7 +49,8 @@ export default defineComponent({
             onChange={() =>
               changeTheme("githubStatCard", document.querySelector("#setting--github__stat"), githubStatTheme)
             }>
-            <option hidden={true} selected={true} disabled={true} value={localStorage.getItem("githubStatCard") || "nothing"}>
+            <option hidden={true} selected={true} disabled={true}
+                    value={localStorage.getItem("githubStatCard") || "nothing"}>
               {localStorage.getItem("githubStatCard") || "Choose a theme"}
             </option>
             {
@@ -43,6 +60,8 @@ export default defineComponent({
             }
           </select>
         </div>
+
+        {/*Streak Theme*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Streak Theme: </p>
           <select
@@ -51,7 +70,8 @@ export default defineComponent({
               changeTheme("githubStreak", document.querySelector("#setting--github__streak"), githubStreakTheme)
             }
           >
-            <option hidden={true} selected={true} disabled={true} value={localStorage.getItem("githubStreak") || "nothing"}>
+            <option hidden={true} selected={true} disabled={true}
+                    value={localStorage.getItem("githubStreak") || "nothing"}>
               {localStorage.getItem("githubStreak") || "Choose a theme"}
             </option>
             {
@@ -61,6 +81,8 @@ export default defineComponent({
             }
           </select>
         </div>
+
+        {/*Top Language Theme*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Theme: </p>
           <select
@@ -69,7 +91,8 @@ export default defineComponent({
               changeTheme("githubTopLanguage", document.querySelector("#setting--github__top-language"), githubTopLanguageTheme)
             }
           >
-            <option hidden={true} selected={true} disabled={true} value={localStorage.getItem("githubTopLanguage") || "nothing"}>
+            <option hidden={true} selected={true} disabled={true}
+                    value={localStorage.getItem("githubTopLanguage") || "nothing"}>
               {localStorage.getItem("githubTopLanguage") || "Choose a theme"}
             </option>
             {
@@ -79,6 +102,19 @@ export default defineComponent({
             }
           </select>
         </div>
+
+        {/*Top Language Count*/}
+        <div class="row mt-1 p-2">
+          <p class="col m-0">Top Language Count: </p>
+          <input type="number" class="col rounded py-1" name="github-language-count" id="setting--github__top-language__count" min="1" max="20" value={githubTopLanguageCount.value}/>
+        {/*Missing event*/}
+        </div>
+
+        {/*Top Language Layout*/}
+
+        {/*Top Language Hide*/}
+
+        <p class="mt-4 mb-1 fw-light" style={{fontSize: '12px'}}>Note: Reload to take effect</p>
       </div>
     )
   }

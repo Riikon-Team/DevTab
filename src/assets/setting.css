@@ -15,7 +15,7 @@
     color: #ffffff;
 }
 
-#setting-container select, #setting-container option {
+#setting-container input, #setting-container select, #setting-container option {
     color: #000000;
 }
 
