@@ -1,5 +1,5 @@
 import {defineComponent, type Ref, ref} from "vue";
-import {GithubTheme} from "@/enums/github-setting.ts";
+import {GithubLayoutChart, GithubTheme} from "@/enums/github-setting.ts";
 
 export default defineComponent({
   name: 'GithubSetting',
@@ -9,7 +9,7 @@ export default defineComponent({
   //     required: true
   //   }
   // },
-  setup(props) {
+  setup() {
     const githubStatTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
     const githubStreakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
     const githubTopLanguageTheme = ref(localStorage.getItem("githubTopLanguage") || "tokyonight")
@@ -17,7 +17,7 @@ export default defineComponent({
     const githubTopLanguageLayout = ref(localStorage.getItem("githubTopLanguageLayout") || "compact")
     const githubTopLanguageHide = ref(localStorage.getItem("githubTopLanguageHide") || "")
 
-    const countLanguage = isNaN(parseInt(githubTopLanguageCount.value)) ? 6 : parseInt(githubTopLanguageCount.value)
+    // const countLanguage = isNaN(parseInt(githubTopLanguageCount.value)) ? 6 : parseInt(githubTopLanguageCount.value)
 
     const changeTheme = (themeType: string, component: Element, refElement: Ref) => {
       const value = component.options[component.selectedIndex].text
@@ -106,13 +106,45 @@ export default defineComponent({
         {/*Top Language Count*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Count: </p>
-          <input type="number" class="col rounded py-1" name="github-language-count" id="setting--github__top-language__count" min="1" max="20" value={githubTopLanguageCount.value}/>
-        {/*Missing event*/}
+          <input type="number" class="col rounded py-1"
+                 name="github-language-count" id="setting--github__top-language__count"
+                 min="1" max="20"
+                 value={githubTopLanguageCount.value}
+                 onBlur={() => changeInputValue("githubTopLanguageCount", document.querySelector("#setting--github__top-language__count", githubTopLanguageCount))}
+          />
         </div>
 
         {/*Top Language Layout*/}
+        <div class="row mt-1 p-2">
+          <p class="col m-0">Top Language Layout: </p>
+          <select
+            class="col rounded py-1" name="github-top-language-layout" id="setting--github__top-language__layout"
+            onChange={() =>
+              changeInputValue("githubTopLanguageLayout", document.querySelector("#setting--github__top-language__layout"), githubTopLanguageLayout)
+            }
+          >
+            <option hidden={true} selected={true} disabled={true}
+                    value={localStorage.getItem("githubTopLanguageLayout") || "compact"}>
+              {localStorage.getItem("githubTopLanguageLayout") || "compact"}
+            </option>
+            {
+              Object.entries(GithubLayoutChart).map(([key, value]) => (
+                <option key={key} value={value}>{value}</option>
+              ))
+            }
+          </select>
+        </div>
 
         {/*Top Language Hide*/}
+        <div class="row mt-1 p-2">
+          <p class="col m-0">Hide Top Language: </p>
+          <input type="text" class="col rounded py-1"
+                 name="github-language-hide" id="setting--github__top-language__hide"
+                 value={githubTopLanguageHide.value}
+                 onBlur={() => changeInputValue("githubTopLanguageHide", document.querySelector("#setting--github__top-language__hide", githubTopLanguageHide))}
+          />
+          <p class="text-end mt-1 mb-1 fw-light" style={{fontSize: '12px'}}>Example:  <span class="fw-normal">html,css,js</span></p>
+        </div>
 
         <p class="mt-4 mb-1 fw-light" style={{fontSize: '12px'}}>Note: Reload to take effect</p>
       </div>

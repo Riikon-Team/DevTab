@@ -12,9 +12,13 @@ export default defineComponent({
     const username = ref(getStoredUsername());
     const newUsername = ref('');
 
+    // Temp code
     const statTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
     const streakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
     const topLanguageTheme = ref(localStorage.getItem("githubTopLanguage") || "tokyonight")
+    const githubTopLanguageCount = ref(localStorage.getItem("githubTopLanguageCount") || "6")
+    const githubTopLanguageLayout = ref(localStorage.getItem("githubTopLanguageLayout") || "compact")
+    const githubTopLanguageHide = ref(localStorage.getItem("githubTopLanguageHide") || "")
 
     const loadStats = async () => {
       loading.value = true;
@@ -104,7 +108,7 @@ export default defineComponent({
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '125px',
                     }}
                   ></iframe>
                 </div>
@@ -117,7 +121,7 @@ export default defineComponent({
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '125px',
                     }}
                   ></iframe>
                 </div>
@@ -125,12 +129,12 @@ export default defineComponent({
                 {/* Top Languages Card */}
                 <div>
                   <iframe
-                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${topLanguageTheme.value}&hide_border=true&layout=compact`}
+                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${topLanguageTheme.value}&hide_border=true&layout=${githubTopLanguageLayout.value}&langs_count=${githubTopLanguageCount.value}&hide=${githubTopLanguageHide.value}`}
                     frameborder="0"
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '200px',
                     }}
                   ></iframe>
                 </div>

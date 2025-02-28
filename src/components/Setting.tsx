@@ -31,6 +31,10 @@ export default defineComponent({
           <div id="setting-body">
             <GithubSetting/>
           </div>
+          {/*Footer setting*/}
+          <div id="setting-footer" class="row">
+
+          </div>
         </div>
       </div>
     )
