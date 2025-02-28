@@ -103,22 +103,12 @@ export default defineComponent({
           </select>
         </div>
 
-        {/*Top Language Count*/}
-        <div class="row mt-1 p-2">
-          <p class="col m-0">Top Language Count: </p>
-          <input type="number" class="col rounded py-1"
-                 name="github-language-count" id="setting--github__top-language__count"
-                 min="1" max="20"
-                 value={githubTopLanguageCount.value}
-                 onBlur={() => changeInputValue("githubTopLanguageCount", document.querySelector("#setting--github__top-language__count", githubTopLanguageCount))}
-          />
-        </div>
-
         {/*Top Language Layout*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Layout: </p>
           <select
-            class="col rounded py-1" name="github-top-language-layout" id="setting--github__top-language__layout"
+            class="col rounded py-1" name="github-top-language-layout"
+            id="setting--github__top-language__layout"
             onChange={() =>
               changeInputValue("githubTopLanguageLayout", document.querySelector("#setting--github__top-language__layout"), githubTopLanguageLayout)
             }
@@ -135,6 +125,17 @@ export default defineComponent({
           </select>
         </div>
 
+        {/*Top Language Count*/}
+        <div class="row mt-1 p-2">
+          <p class="col m-0">Top Language Count: </p>
+          <input type="number" class="col rounded py-1"
+                 name="github-language-count" id="setting--github__top-language__count"
+                 min="1" max="20"
+                 value={githubTopLanguageCount.value}
+                 onBlur={() => changeInputValue("githubTopLanguageCount", document.querySelector("#setting--github__top-language__count", githubTopLanguageCount))}
+          />
+        </div>
+
         {/*Top Language Hide*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Hide Top Language: </p>
@@ -143,7 +144,8 @@ export default defineComponent({
                  value={githubTopLanguageHide.value}
                  onBlur={() => changeInputValue("githubTopLanguageHide", document.querySelector("#setting--github__top-language__hide", githubTopLanguageHide))}
           />
-          <p class="text-end mt-1 mb-1 fw-light" style={{fontSize: '12px'}}>Example:  <span class="fw-normal">html,css,js</span></p>
+          <p class="text-end mt-1 mb-1 fw-light" style={{fontSize: '12px'}}>Example: <span
+            class="fw-normal">html,css,js</span></p>
         </div>
 
         <p class="mt-4 mb-1 fw-light" style={{fontSize: '12px'}}>Note: Reload to take effect</p>

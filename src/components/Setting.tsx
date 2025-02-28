@@ -1,4 +1,4 @@
-import {defineComponent, type PropType, type Ref} from "vue";
+import {defineComponent, type PropType} from "vue";
 import '../assets/setting.css'
 import GithubSetting from "@/components/GithubSetting.tsx";
 
@@ -21,10 +21,10 @@ export default defineComponent({
            class="position-fixed"
       >
         {/*Main Setting Popup*/}
-        <div id="setting" class="rounded p-3">
+        <div id="setting" class="rounded p-4">
           {/*Title and exit button*/}
           <div id="setting-header" class="d-flex justify-content-between">
-            <h4 class="text-white mt-4">Setting</h4>
+            <h3 class="text-white mt-4">Setting</h3>
             <i class="cursor-pointer bi bi-x-lg" onClick={closeSetting}></i>
           </div>
           {/*Body setting*/}

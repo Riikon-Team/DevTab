@@ -2,7 +2,7 @@ const GITHUB_USERNAME_KEY = 'github_username';
 import type { GithubStats } from '../constants/github';
 
 export const getStoredUsername = (): string => {
-  return localStorage.getItem(GITHUB_USERNAME_KEY) || 'konnn04';
+  return localStorage.getItem(GITHUB_USERNAME_KEY) || null;
 };
 
 export const setStoredUsername = (username: string): void => {
@@ -19,7 +19,7 @@ export const fetchGithubStats = async (username: string): Promise<GithubStats> =
   const repos = await reposResponse.json();
 
   // Calculate total stars
-  const totalStars = repos.reduce((acc: number, repo: any) => 
+  const totalStars = repos.reduce((acc: number, repo: any) =>
     acc + repo.stargazers_count, 0);
 
   // Get total commits (approximation from contribution graph)

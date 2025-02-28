@@ -24,7 +24,7 @@ export default defineComponent({
       loading.value = true;
       error.value = null;
       try {
-        stats.value = await fetchGithubStats(username.value);
+        if (username.value !== null) stats.value = await fetchGithubStats(username.value);
       } catch (err) {
         error.value = 'Failed to load GitHub stats';
         console.error(err);
@@ -56,7 +56,7 @@ export default defineComponent({
           </div>
         ) : error.value ? (
           <div class="text-danger">{error.value}</div>
-        ) : stats.value && (
+        ) : stats.value ? (
           <div>
             {/* User Info Section */}
             <div class="d-flex justify-content-between align-items-start mb-3">
@@ -140,6 +140,25 @@ export default defineComponent({
                 </div>
               </div>
             )}
+          </div>
+        ) : (
+          <div>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter GitHub username"
+                v-model={newUsername.value}
+                onKeyup={(e) => e.key === 'Enter' && handleUsernameChange()}
+              />
+              <button
+                class="btn btn-primary"
+                onClick={handleUsernameChange}
+              >
+                Save
+              </button>
+            </div>
+            <p class="text-center">Choose a username to enable this feature.</p>
           </div>
         )}
       </div>
