@@ -2,6 +2,7 @@
 import {defineComponent, ref, onMounted} from 'vue';
 import {SEARCH_ENGINES, BACKGROUNDS} from './constants/main';
 import SearchHandler from './components/SearchHandler';
+import BookmarkFromBrowser from './components/BookmarkFromBrowser';
 import Bookmark from './components/Bookmark';
 import Clock from './components/Clock'
 import Widget from './components/Widget';
@@ -58,6 +59,8 @@ export default defineComponent({
           icon="https://raw.githubusercontent.com/konnn04/m/refs/heads/main/assets/img/ico.jpg"
           style="position: absolute; bottom: 10px; right: 50px; width: 32px; height: 32px;"
         /> */}
+
+        <BookmarkFromBrowser/>
         <Clock style="position: absolute; top: 10px; right: 10px; color: white"/>
         <main class="d-flex flex-column align-items-center w-100" style="max-width: 600px">
           <div class="text-center">

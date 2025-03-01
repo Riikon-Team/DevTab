@@ -19,7 +19,7 @@ export default defineComponent({
 
     // const countLanguage = isNaN(parseInt(githubTopLanguageCount.value)) ? 6 : parseInt(githubTopLanguageCount.value)
 
-    const changeTheme = (themeType: string, component: Element, refElement: Ref) => {
+    const changeTheme = (themeType: string, component: HTMLSelectElement, refElement: Ref) => {
       const value = component.options[component.selectedIndex].text
       if (value !== 'nothing') {
         localStorage.setItem(themeType, value)
@@ -28,7 +28,7 @@ export default defineComponent({
       }
     }
 
-    const changeInputValue = (type: string, component: Element, element: Ref) => {
+    const changeInputValue = (type: string, component: HTMLInputElement | HTMLSelectElement, element: Ref) => {
       const value = component.value
       if (value) {
         localStorage.setItem(type, value.toString())
@@ -37,7 +37,7 @@ export default defineComponent({
     }
 
     return () => (
-      <div class="mt-5">
+      <div class="">
         <h5>Github</h5>
         <hr class="mb-3"/>
 
@@ -45,9 +45,9 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Github Stat Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__stat"
-            onChange={() =>
-              changeTheme("githubStatCard", document.querySelector("#setting--github__stat"), githubStatTheme)
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__stat"
+            onChange={(e) =>
+              changeTheme("githubStatCard", e.target as HTMLSelectElement, githubStatTheme)
             }>
             <option hidden={true} selected={true} disabled={true}
                     value={localStorage.getItem("githubStatCard") || "nothing"}>
@@ -65,9 +65,9 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Streak Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__streak"
-            onChange={() =>
-              changeTheme("githubStreak", document.querySelector("#setting--github__streak"), githubStreakTheme)
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__streak"
+            onChange={(e) =>
+              changeTheme("githubStreak", e.target as HTMLSelectElement, githubStreakTheme)
             }
           >
             <option hidden={true} selected={true} disabled={true}
@@ -86,9 +86,9 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__top-language"
-            onChange={() =>
-              changeTheme("githubTopLanguage", document.querySelector("#setting--github__top-language"), githubTopLanguageTheme)
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__top-language"
+            onChange={(e) =>
+              changeTheme("githubTopLanguage", e.target as HTMLSelectElement, githubTopLanguageTheme)
             }
           >
             <option hidden={true} selected={true} disabled={true}
@@ -107,10 +107,10 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Layout: </p>
           <select
-            class="col rounded py-1" name="github-top-language-layout"
+            class="col rounded py-1 _controls" name="github-top-language-layout"
             id="setting--github__top-language__layout"
-            onChange={() =>
-              changeInputValue("githubTopLanguageLayout", document.querySelector("#setting--github__top-language__layout"), githubTopLanguageLayout)
+            onChange={(e) =>
+              changeInputValue("githubTopLanguageLayout", e.target as HTMLSelectElement, githubTopLanguageLayout)
             }
           >
             <option hidden={true} selected={true} disabled={true}
@@ -128,21 +128,21 @@ export default defineComponent({
         {/*Top Language Count*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Count: </p>
-          <input type="number" class="col rounded py-1"
+          <input type="number" class="col rounded py-1 _controls"
                  name="github-language-count" id="setting--github__top-language__count"
                  min="1" max="20"
                  value={githubTopLanguageCount.value}
-                 onBlur={() => changeInputValue("githubTopLanguageCount", document.querySelector("#setting--github__top-language__count", githubTopLanguageCount))}
+                 onBlur={(e) => changeInputValue("githubTopLanguageCount", e.target as HTMLInputElement, githubTopLanguageCount)}
           />
         </div>
 
         {/*Top Language Hide*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Hide Top Language: </p>
-          <input type="text" class="col rounded py-1"
+          <input type="text" class="col rounded py-1 _controls"
                  name="github-language-hide" id="setting--github__top-language__hide"
                  value={githubTopLanguageHide.value}
-                 onBlur={() => changeInputValue("githubTopLanguageHide", document.querySelector("#setting--github__top-language__hide", githubTopLanguageHide))}
+                 onBlur={(e) => changeInputValue("githubTopLanguageHide", e.target as HTMLInputElement, githubTopLanguageHide)}
           />
           <p class="text-end mt-1 mb-1 fw-light" style={{fontSize: '12px'}}>Example: <span
             class="fw-normal">html,css,js</span></p>

@@ -5,6 +5,10 @@
   src: url('/assets/fonts/DS-DIGII.TTF') format('truetype');
 }
 
+*{
+  user-select: none;
+}
+
 #app {
   font-weight: normal;
 }
@@ -32,6 +36,7 @@ a,
   &:hover{
     background-color: #343a40be!important;
   }
+  
 }
 /* ======================== */
 .bookmark-item {
@@ -39,9 +44,11 @@ a,
   cursor: pointer;
 }
 
+
 .bookmark-item:hover {
   transform: translateY(-2px);
   background-color: rgba(255, 255, 255, 0.1) !important;
+  z-index: 0!important;
 }
 
 .bookmark-item img {
@@ -74,6 +81,8 @@ a,
 .bookmark-item>div{
   opacity: 0;
   transition: all .2s ;
+  position: relative;
+  z-index: -1;
 }
 
 .bookmark-item:hover >div{

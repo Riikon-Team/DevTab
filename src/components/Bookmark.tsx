@@ -51,7 +51,7 @@ export default defineComponent({
         <div class="bookmark-scroll" style="max-width: 700px; width:100vw; overflow-y: auto; aspect-ratio:5/1; padding: 0 1rem;">
           <div class="d-flex gap-1 flex-wrap justify-content-start align-items-center">
             {bookmarks.value.map(bookmark => (
-              <div key={bookmark.id} style="width: 19%; flex-shrink: 0; ">
+              <div key={bookmark.id} style="width: 16%; flex-shrink: 0; ">
                 <div class="bookmark-item p-2 bg-dark bg-opacity-50 rounded text-center" style="aspect-ratio: 1/1; width: 100%;">
                   <div class="d-flex justify-content-end mb-1">
                     <button
@@ -84,7 +84,7 @@ export default defineComponent({
             ))}
             <button
               class="btn btn-outline-light d-flex align-items-center justify-content-center border-dashed rounded"
-              style="width: 19%; flex-shrink: 0; aspect-ratio: 1/1;"
+              style="width: 16%; flex-shrink: 0; aspect-ratio: 1/1;"
               onClick={() => showAddForm.value = true}
             >
               <i class="bi bi-plus" style='font-size: 3rem'></i>

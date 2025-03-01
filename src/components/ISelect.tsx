@@ -53,8 +53,8 @@ export default defineComponent({
           />
           {props.hasLabel ? props.modelValue : ''}
         </button>
-        {isOpen.value && (
-          <div class="dropdown-menu show _controls">
+        {(
+          <div class={`dropdown-menu _controls ${isOpen.value ? 'show' : ''}`} style={`display: ${isOpen.value ? 'block' : 'none'}`}>
             {props.options.map(option => (
               <button 
                 class="dropdown-item _controls"
