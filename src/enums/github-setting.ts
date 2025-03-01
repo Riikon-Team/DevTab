@@ -6,5 +6,5 @@ function convertListToEnum<T extends string>(arr: T[]): { [K in T]: K } {
 }
 
 
-export const GithubTheme = convertListToEnum(themesValue) as GithubTheme
-export const GithubLayoutChart = convertListToEnum(layoutChartValue) as GithubLayoutChart
+export const GithubTheme = convertListToEnum(themesValue)
+export const GithubLayoutChart = convertListToEnum(layoutChartValue)
