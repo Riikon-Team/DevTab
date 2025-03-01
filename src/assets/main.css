@@ -115,3 +115,7 @@ a,
   transition: none !important;
 }
 
+/* Additional to put this simple css on class */
+.cursor-pointer {
+  cursor: pointer;
+}
