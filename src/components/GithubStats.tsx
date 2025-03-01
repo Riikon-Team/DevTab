@@ -11,18 +11,20 @@ export default defineComponent({
     const isEditing = ref(false);
     const username = ref(getStoredUsername());
     const newUsername = ref('');
-    // Default github param
-    const githubStyle = {
-      statCard: {theme: 'tokyonight'},
-      streak: {theme: 'tokyonight'},
-      topLanguage: {theme: 'tokyonight'}
-    }
+
+    // Temp code
+    const statTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
+    const streakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
+    const topLanguageTheme = ref(localStorage.getItem("githubTopLanguage") || "tokyonight")
+    const githubTopLanguageCount = ref(localStorage.getItem("githubTopLanguageCount") || "6")
+    const githubTopLanguageLayout = ref(localStorage.getItem("githubTopLanguageLayout") || "compact")
+    const githubTopLanguageHide = ref(localStorage.getItem("githubTopLanguageHide") || "")
 
     const loadStats = async () => {
       loading.value = true;
       error.value = null;
       try {
-        stats.value = await fetchGithubStats(username.value);
+        if (username.value !== null) stats.value = await fetchGithubStats(username.value);
       } catch (err) {
         error.value = 'Failed to load GitHub stats';
         console.error(err);
@@ -39,24 +41,13 @@ export default defineComponent({
       await loadStats();
     };
 
-    const loadGithubStyle = async () => {
-      const defaultTheme = 'tokyonight'
-      //Currently support theme parameter
-      const cardStyle = localStorage.getItem("githubStatCard") || defaultTheme
-      const streakStyle = localStorage.getItem("githubStreak") || defaultTheme
-      const topLanguageStyle = localStorage.getItem("githubTopLanguage") || defaultTheme
-      githubStyle.statCard = {theme: cardStyle}
-      githubStyle.streak = {theme: streakStyle}
-      githubStyle.topLanguage = {theme: topLanguageStyle}
-    }
-
     onMounted(() => {
       loadStats()
-      loadGithubStyle()
     });
 
     return () => (
       <div class="github-stats text-white p-3 rounded bg-transparent position-relative">
+        {/*<p class="mb-3">Your Github stat</p>*/}
         {loading.value ? (
           <div class="text-center">
             <div class="spinner-border text-light" role="status">
@@ -65,7 +56,7 @@ export default defineComponent({
           </div>
         ) : error.value ? (
           <div class="text-danger">{error.value}</div>
-        ) : stats.value && (
+        ) : stats.value ? (
           <div>
             {/* User Info Section */}
             <div class="d-flex justify-content-between align-items-start mb-3">
@@ -112,12 +103,12 @@ export default defineComponent({
                 {/* GitHub Stats Card */}
                 <div class="mb-1">
                   <iframe
-                    src={`https://github-readme-stats.vercel.app/api?username=${username.value}&theme=${githubStyle.statCard.theme}&show_icons=true&hide_border=true&count_private=true`}
+                    src={`https://github-readme-stats.vercel.app/api?username=${username.value}&theme=${statTheme.value}&show_icons=true&hide_border=true&count_private=true`}
                     frameborder="0"
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '125px',
                     }}
                   ></iframe>
                 </div>
@@ -125,12 +116,12 @@ export default defineComponent({
                 {/* GitHub Streak Stats */}
                 <div class="mb-3">
                   <iframe
-                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${username.value}&theme=${githubStyle.streak.theme}&hide_border=true`}
+                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${username.value}&theme=${streakTheme.value}&hide_border=true`}
                     frameborder="0"
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '125px',
                     }}
                   ></iframe>
                 </div>
@@ -138,17 +129,36 @@ export default defineComponent({
                 {/* Top Languages Card */}
                 <div>
                   <iframe
-                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${githubStyle.topLanguage.theme}&hide_border=true&layout=compact`}
+                    src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username.value}&theme=${topLanguageTheme.value}&hide_border=true&layout=${githubTopLanguageLayout.value}&langs_count=${githubTopLanguageCount.value}&hide=${githubTopLanguageHide.value}`}
                     frameborder="0"
                     scrolling="no"
                     style={{
                       width: '100%',
-                      height: '120px',
+                      height: '200px',
                     }}
                   ></iframe>
                 </div>
               </div>
             )}
+          </div>
+        ) : (
+          <div>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter GitHub username"
+                v-model={newUsername.value}
+                onKeyup={(e) => e.key === 'Enter' && handleUsernameChange()}
+              />
+              <button
+                class="btn btn-primary"
+                onClick={handleUsernameChange}
+              >
+                Save
+              </button>
+            </div>
+            <p class="text-center">Choose a username to enable this feature.</p>
           </div>
         )}
       </div>
