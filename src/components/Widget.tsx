@@ -1,6 +1,5 @@
 import {defineComponent, ref} from 'vue';
 import GithubStats from './GithubStats';
-import Setting from "@/components/Setting.tsx";
 
 export default defineComponent({
   name: 'Widget',

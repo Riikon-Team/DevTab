@@ -81,6 +81,7 @@ export default defineComponent({
           {isSettingOpen.value && <Setting onClose={() => toggleSetting(false)}/>}
           {/*Setting button*/}
           <button
+            id="main-setting-button"
             class="position-absolute btn btn-sm btn-link text-white p-0"
             style={{bottom: "3rem", right: "10px"}}
             onClick={() => toggleSetting(true)}
