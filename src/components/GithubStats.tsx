@@ -25,8 +25,11 @@ export default defineComponent({
       error.value = null;
       try {
         if (username.value !== null) stats.value = await fetchGithubStats(username.value);
+        if (stats.value?.username=="") throw new Error("User not found");
       } catch (err) {
-        error.value = 'Failed to load GitHub stats';
+        // Default username
+        setStoredUsername('konnn04'); 
+        error.value = 'Failed to fetch GitHub stats, Please refresh and try again.';
         console.error(err);
       } finally {
         loading.value = false;
@@ -133,8 +136,7 @@ export default defineComponent({
                     frameborder="0"
                     scrolling="no"
                     style={{
-                      width: '100%',
-                      height: '200px',
+                      width: '100%'
                     }}
                   ></iframe>
                 </div>

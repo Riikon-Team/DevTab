@@ -37,7 +37,7 @@ export default defineComponent({
     }
 
     return () => (
-      <div class="mt-5">
+      <div class="">
         <h5>Github</h5>
         <hr class="mb-3"/>
 
@@ -45,7 +45,7 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Github Stat Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__stat"
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__stat"
             onChange={(e) =>
               changeTheme("githubStatCard", e.target as HTMLSelectElement, githubStatTheme)
             }>
@@ -65,7 +65,7 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Streak Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__streak"
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__streak"
             onChange={(e) =>
               changeTheme("githubStreak", e.target as HTMLSelectElement, githubStreakTheme)
             }
@@ -86,7 +86,7 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Theme: </p>
           <select
-            class="col rounded py-1" name="github-stat" id="setting--github__top-language"
+            class="col rounded py-1 _controls" name="github-stat" id="setting--github__top-language"
             onChange={(e) =>
               changeTheme("githubTopLanguage", e.target as HTMLSelectElement, githubTopLanguageTheme)
             }
@@ -107,7 +107,7 @@ export default defineComponent({
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Layout: </p>
           <select
-            class="col rounded py-1" name="github-top-language-layout"
+            class="col rounded py-1 _controls" name="github-top-language-layout"
             id="setting--github__top-language__layout"
             onChange={(e) =>
               changeInputValue("githubTopLanguageLayout", e.target as HTMLSelectElement, githubTopLanguageLayout)
@@ -128,7 +128,7 @@ export default defineComponent({
         {/*Top Language Count*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Top Language Count: </p>
-          <input type="number" class="col rounded py-1"
+          <input type="number" class="col rounded py-1 _controls"
                  name="github-language-count" id="setting--github__top-language__count"
                  min="1" max="20"
                  value={githubTopLanguageCount.value}
@@ -139,7 +139,7 @@ export default defineComponent({
         {/*Top Language Hide*/}
         <div class="row mt-1 p-2">
           <p class="col m-0">Hide Top Language: </p>
-          <input type="text" class="col rounded py-1"
+          <input type="text" class="col rounded py-1 _controls"
                  name="github-language-hide" id="setting--github__top-language__hide"
                  value={githubTopLanguageHide.value}
                  onBlur={(e) => changeInputValue("githubTopLanguageHide", e.target as HTMLInputElement, githubTopLanguageHide)}
