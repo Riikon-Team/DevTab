@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "DevTab",
     "description": "A new tab page for developers",
-    "version": "1.0.4",
+    "version": "1.0.3",
     "chrome_url_overrides": {
       "newtab": "index.html"
     },

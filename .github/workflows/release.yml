@@ -31,20 +31,25 @@ jobs:
         run: npm run build
 
       - name: Zip dist folder
-        run: cd dist && zip -r ../devtab.zip *
+        run: cd dist && zip -r ../devtab_${{ github.ref_name }}.zip *
 
       - name: Get tag version
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
+      - name: Generate changelog
+        id: changelog
+        uses: metcalfc/changelog-generator@v4.0.1
+        with:
+          mytoken: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: devtab_v{{ github.ref_name }}.zip
-          name: Update v${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          files: devtab_${{ github.ref_name }}.zip
+          name: Release ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
