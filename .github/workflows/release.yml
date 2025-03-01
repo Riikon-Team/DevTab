@@ -31,20 +31,53 @@ jobs:
         run: npm run build
 
       - name: Zip dist folder
-        run: cd dist && zip -r ../devtab.zip *
+        run: cd dist && zip -r ../devtab_${{ github.ref_name }}.zip *
 
-      - name: Get tag version
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Get current tag
+        id: current_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 ${{ steps.current_tag.outputs.TAG }}^ 2>/dev/null || echo "")
+          echo "TAG=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog from PRs
+        id: changelog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_TAG: ${{ steps.current_tag.outputs.TAG }}
+          PREVIOUS_TAG: ${{ steps.previous_tag.outputs.TAG }}
+        run: |
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "No previous tag found. Listing all merged PRs for this release."
+            PR_LIST=$(gh pr list --state merged --limit 100 --json number,title,author,mergedAt --template '{{range .}}## #{{.number}} {{.title}} (@{{.author.login}}){{printf "\n"}}Merged at: {{.mergedAt}}{{printf "\n\n"}}{{end}}')
+          else
+            echo "Generating changelog between $PREVIOUS_TAG and $CURRENT_TAG"
+            PR_LIST=$(gh pr list --state merged --search "merged:>$(git log -1 --format=%aI $PREVIOUS_TAG)" --limit 100 --json number,title,author,mergedAt --template '{{range .}}## #{{.number}} {{.title}} (@{{.author.login}}){{printf "\n"}}Merged at: {{.mergedAt}}{{printf "\n\n"}}{{end}}')
+          fi
+          
+          echo "# Changes in $CURRENT_TAG" > changelog.md
+          echo "" >> changelog.md
+          
+          if [ -z "$PR_LIST" ]; then
+            echo "No pull requests found for this release." >> changelog.md
+          else
+            echo "$PR_LIST" >> changelog.md
+          fi
+          
+          # Escaping for GitHub Actions
+          cat changelog.md | perl -pe 's/\%/\%25/g' | perl -pe 's/\n/\%0A/g' | perl -pe 's/\r/\%0D/g' > changelog_escaped.md
+          echo "CHANGELOG=$(cat changelog_escaped.md)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: devtab.zip
+          files: devtab_${{ github.ref_name }}.zip
           name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          body_path: changelog.md
           draft: false
           prerelease: false
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

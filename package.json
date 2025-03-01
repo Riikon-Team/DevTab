@@ -1,6 +1,6 @@
 {
   "name": "devtab",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "version:patch": "npm version patch -m \"Release v%s\"",
+    "version": "node scripts/sync-version.js && git add public/manifest.json",
     "version:minor": "npm version minor -m \"Release v%s\"",
     "version:major": "npm version major -m \"Release v%s\"",
     "preversion": "node scripts/sync-version.js pre",

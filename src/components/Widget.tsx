@@ -1,5 +1,6 @@
 import {defineComponent, ref} from 'vue';
 import GithubStats from './GithubStats';
+import Setting from "@/components/Setting.tsx";
 
 export default defineComponent({
   name: 'Widget',
@@ -19,7 +20,7 @@ export default defineComponent({
           left: 0,
           top: 0,
           bottom: 0,
-          width: isOpen.value ? '350px' : '70px',
+          width: isOpen.value ? '350px' : '60px',
           transition: 'width 0.3s ease',
           overflow: 'hidden'
         }}
