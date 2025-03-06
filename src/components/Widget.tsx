@@ -1,6 +1,6 @@
-import {defineComponent, ref} from 'vue';
+import { defineComponent, ref } from 'vue';
 import GithubStats from './GithubStats';
-
+import WeatherWidget from './Weather'
 export default defineComponent({
   name: 'Widget',
   setup() {
@@ -38,15 +38,30 @@ export default defineComponent({
           </button>
         </div>
 
+        <div class="d-flex justify-content-end p-2">
+          <button
+            class="btn btn-sm btn-link text-white p-0"
+            onClick={toggleWidget}
+          >
+            {isOpen.value ? "" :
+              <div class="d-flex align-items-center">
+                <i class="bi bi-cloud-fill h4 m-0 me-2"></i>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+            }
+          </button>
+        </div>
+
         <div
-          class="widget-content px-3"
+          class="widget-content pb-3"
           style={{
             opacity: isOpen.value ? 1 : 0,
             transition: 'opacity 0.3s ease',
             visibility: isOpen.value ? 'visible' : 'hidden'
           }}
         >
-          <GithubStats/>
+          <GithubStats />
+          <WeatherWidget />
         </div>
       </div>
     );
