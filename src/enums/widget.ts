@@ -1,4 +1,5 @@
 export enum WidgetType {
-  NONE = 'none',
+  NONE = 'false',
   GITHUB = 'github',
+  WEATHER = 'weather'
 }

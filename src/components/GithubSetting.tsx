@@ -3,12 +3,6 @@ import {GithubLayoutChart, GithubTheme} from "@/enums/github-setting.ts";
 
 export default defineComponent({
   name: 'GithubSetting',
-  // props: {
-  //   onStyleChange: {
-  //     type: Function<(ref: Ref, value: string) => void>,
-  //     required: true
-  //   }
-  // },
   setup() {
     const githubStatTheme = ref(localStorage.getItem("githubStatCard") || "tokyonight")
     const githubStreakTheme = ref(localStorage.getItem("githubStreak") || "tokyonight")
@@ -17,14 +11,12 @@ export default defineComponent({
     const githubTopLanguageLayout = ref(localStorage.getItem("githubTopLanguageLayout") || "compact")
     const githubTopLanguageHide = ref(localStorage.getItem("githubTopLanguageHide") || "")
 
-    // const countLanguage = isNaN(parseInt(githubTopLanguageCount.value)) ? 6 : parseInt(githubTopLanguageCount.value)
 
     const changeTheme = (themeType: string, component: HTMLSelectElement, refElement: Ref) => {
       const value = component.options[component.selectedIndex].text
       if (value !== 'nothing') {
         localStorage.setItem(themeType, value)
         refElement.value = value
-        // props.onStyleChange(refElement, value)
       }
     }
 
