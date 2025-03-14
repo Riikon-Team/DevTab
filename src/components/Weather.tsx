@@ -1,48 +1,20 @@
+import type { WeatherData } from "@/constants/weather";
+import getForecastData from "@/utils/weather";
 import { defineComponent, onMounted, ref } from "vue";
-
-interface WeatherData {
-    location: string,
-    weather: string,
-    tempature: string,
-    humidity: string,
-    updatedAt: string
-}
 
 export default defineComponent({
     name: 'WeatherWidget',
     setup() {
         const weatherData = ref<WeatherData | null>(null)
-        const hourlyIndex = ref<number>(0)
         const loading = ref(true);
 
-        const fetchWeatherData = async (location: string) => {
-            return fetch(`https://wttr.in/${location}?format=j1&`)
-                .then(data => data.json())
-                .then(data => data)
-        }
-                
-        const getForecastData = (location: string, index: number) => {
-            return fetchWeatherData(location)
-                .then(data => {
-                    const result: WeatherData[] = []
-                    hourlyIndex.value = Math.trunc(new Date().getHours() / 3)
-                    for (const element of data['weather'][index]['hourly']) {
-                        result.push({
-                            location: data['nearest_area'][index]['areaName'][0]['value'],
-                            weather: element['weatherDesc'][0]['value'],
-                            tempature: element["tempC"] + "°C",
-                            humidity: element["humidity"] + "%",
-                            updatedAt: (hourlyIndex.value * 3) + ":00"
-                        })
-                    }
-                    return result
-                })
-        }
+        
 
         onMounted(async () => {
             //Default value just for testing
-            const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0).finally(() => loading.value = false)
-            weatherData.value = currentWeatherDetail[hourlyIndex.value]
+            const hourIndex = Math.trunc(new Date().getHours() / 3)
+            const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => loading.value = false)
+            weatherData.value = currentWeatherDetail[hourIndex]
         })
 
         return () => (
