@@ -12,19 +12,37 @@ export default defineComponent({
     name: 'WeatherWidget',
     setup() {
         const weatherData = ref<WeatherData | null>(null)
+        const hourlyIndex = ref<number>(0)
         const loading = ref(true);
 
-        const getWeatherData = (location: string) => {
-            //Incoming parameter: lang=vi
+        const fetchWeatherData = async (location: string) => {
             return fetch(`https://wttr.in/${location}?format=j1&`)
                 .then(data => data.json())
-                .then(data => getWeatherDetail(data)).finally(() => loading.value = false)
+                .then(data => data)
+        }
+                
+        const getForecastData = (location: string, index: number) => {
+            return fetchWeatherData(location)
+                .then(data => {
+                    const result: WeatherData[] = []
+                    hourlyIndex.value = Math.trunc(new Date().getHours() / 3)
+                    for (const element of data['weather'][index]['hourly']) {
+                        result.push({
+                            location: data['nearest_area'][index]['areaName'][0]['value'],
+                            weather: element['weatherDesc'][0]['value'],
+                            tempature: element["tempC"] + "°C",
+                            humidity: element["humidity"] + "%",
+                            updatedAt: (hourlyIndex.value * 3) + ":00"
+                        })
+                    }
+                    return result
+                })
         }
 
         onMounted(async () => {
             //Default value just for testing
-            weatherData.value = await getWeatherData('Hồ Chí Minh')
-            console.log(weatherData.value)
+            const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0).finally(() => loading.value = false)
+            weatherData.value = currentWeatherDetail[hourlyIndex.value]
         })
 
         return () => (
@@ -53,21 +71,3 @@ export default defineComponent({
         )
     }
 })
-
-//Get data from json response
-const getWeatherDetail = (obj: any): WeatherData | null => {
-    try {
-        const hourlyIndex = Math.trunc(new Date().getHours() / 3)
-
-        return {
-            location: obj['nearest_area'][0]['areaName'][0]['value'],
-            weather: obj['weather'][0]['hourly'][hourlyIndex]['weatherDesc'][0]['value'],
-            tempature: obj['weather'][0]['hourly'][hourlyIndex]["tempC"] + "°C",   //Currently support Celcius
-            humidity: obj['weather'][0]['hourly'][hourlyIndex]["humidity"] + "%",
-            updatedAt: (hourlyIndex * 3) + ":00"
-        }
-    }
-    catch {
-        return null
-    }
-}
