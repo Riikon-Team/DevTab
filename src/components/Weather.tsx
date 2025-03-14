@@ -1,5 +1,5 @@
 import type { WeatherData } from "@/constants/weather";
-import getForecastData from "@/utils/weather";
+import getForecastData, { getEmojiByWeather } from "@/utils/weather";
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
@@ -7,14 +7,21 @@ export default defineComponent({
     setup() {
         const weatherData = ref<WeatherData | null>(null)
         const loading = ref(true);
-
-        
+        const forecastData = ref<WeatherData[][] | null>(null)
+        const error = ref(false)
 
         onMounted(async () => {
-            //Default value just for testing
-            const hourIndex = Math.trunc(new Date().getHours() / 3)
-            const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => loading.value = false)
-            weatherData.value = currentWeatherDetail[hourIndex]
+            try {
+                //Default value just for testing
+                const hourIndex = Math.trunc(new Date().getHours() / 3)
+                const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => loading.value = false)
+
+                forecastData.value = await Promise.all([getForecastData('Hồ Chí Minh', 0, hourIndex), getForecastData('Hồ Chí Minh', 1, hourIndex), getForecastData('Hồ Chí Minh', 2, hourIndex)])
+                weatherData.value = currentWeatherDetail[hourIndex]
+            }
+            catch {
+                error.value = true
+            }
         })
 
         return () => (
@@ -27,18 +34,55 @@ export default defineComponent({
                     </div>
                 ) : weatherData.value ? (
                     <div class="p-3 rounded bg-transparent position-relative">
-                        <h4 class="mb-3">Weather detail</h4>
                         <div>
-                            <p class="mb-1">Location: <span class="fw-semibold">{weatherData.value.location}</span></p>
-                            <p class="mb-1">Weather: <span class="fw-semibold">{weatherData.value.weather}</span></p>
-                            <p class="mb-1">Tempature: <span class="fw-semibold">{weatherData.value.tempature}</span></p>
-                            <p class="mb-1">Humidity: <span class="fw-semibold">{weatherData.value.humidity}</span></p>
+                            <p class="mb-4 text-start">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                <span class="fw-semibold">{weatherData.value.location}</span>
+                            </p>
+                            <p class="mb-4 display-1 text-center">{getEmojiByWeather(weatherData.value.weather.toUpperCase().trim())}</p>
+                            <p class="mb-1 text-center"><span class="fw-semibold h2">{weatherData.value.tempature}</span></p>
+                            <p class="mb-1 text-center">Humidity: <span class="fw-semibold">{weatherData.value.humidity}</span></p>
+                            <p class="mb-1 text-center">{new Date().toLocaleDateString('en-GB')}</p>
                         </div>
+
+
+                        <div class="d-flex overflow-x-auto rounded p-1 mt-4">
+                            {
+                                forecastData.value?.map((date, index) => {
+                                    const today = new Date()
+                                    today.setDate(today.getDate() + index)
+                                    return date.map((element, index) => {
+                                        return (
+                                            <div class={index === 0 ? "" : "px-3"}>
+                                                <p class="mb-1 fw-semibold h3 text-center">
+                                                    {getEmojiByWeather(element.weather.toUpperCase().trim())}
+                                                </p>
+                                                <p class="mb-1 h5 fw-semibold text-center">
+                                                    {element.tempature}
+                                                </p>
+                                                <p class="mb-2 text-center">
+                                                    {element.humidity}
+                                                </p>
+                                                <p class="mb-2 text-center">
+                                                    {index * 3 + ':00'}
+                                                </p>
+                                                {index === 0 &&
+                                                    <p class='text-center'>
+                                                        {today.toLocaleDateString('en-GB')}
+                                                    </p>
+                                                }
+                                            </div>
+                                        )
+                                    })
+                                })
+                            }
+                        </div>
+
                         <div>
-                            <p style={{ fontSize: '12px' }} class="text-end">Updated at: {weatherData.value.updatedAt}</p>
+                            <p style={{ fontSize: '12px' }} class="mt-2 text-end">Updated at: {weatherData.value.updatedAt}</p>
                         </div>
                     </div>
-                ) : <p class="text-danger">Error when getting weather data.</p>}
+                ) : error.value && <p class="text-danger">Error when getting weather data.</p>}
             </div>
         )
     }
