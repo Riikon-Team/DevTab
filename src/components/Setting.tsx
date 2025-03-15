@@ -27,7 +27,7 @@ export default defineComponent({
 
     const getTempatureScaleString = (scale: string | null): string => {
       if (!scale) return 'Choose a tempature scale'
-      
+
       switch (scale) {
         case 'C': return 'Celcius (°C)'
         case 'F': return 'Fahrenheit (°F)'
@@ -39,7 +39,7 @@ export default defineComponent({
       const locationComponent = document.getElementById("weather-location") as HTMLInputElement
       const tempatureScaleComponent = document.getElementById("tempature-scale") as HTMLSelectElement
       weatherLocation.value = locationComponent.value
-      tempatureScale.value = tempatureScaleComponent.value === 'nothing' ? "C" : tempatureScale.value
+      tempatureScale.value = tempatureScaleComponent.value === 'nothing' ? "C" : tempatureScaleComponent.value
       localStorage.setItem('weatherLocation', weatherLocation.value)
       localStorage.setItem('tempatureScale', tempatureScale.value)
     }
@@ -108,7 +108,10 @@ export default defineComponent({
                   </select>
                 </div>
 
-                {/* <p class="text-white">Coming soon...</p> */}
+                <div class="row mt-1 p-2">
+                  <p class="text-white">Coming soon...</p>
+                </div>
+                <p class="mt-4 mb-1 fw-light" style={{fontSize: '12px'}}>Note: Reload to take effect</p>
               </div>
             </div>
 

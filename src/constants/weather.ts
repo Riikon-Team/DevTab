@@ -9,3 +9,10 @@ export interface WeatherData {
 export interface WeatherContent {
     detail: WeatherData[]
 }
+
+export interface WeatherStorage {
+    location: string,
+    data: WeatherContent[],
+    updatedTime: Date,
+    tempatureScale: string
+}

@@ -1,5 +1,5 @@
 import type { WeatherData } from '@/constants/weather';
-import getForecastData, { getEmojiByWeather } from "@/utils/weather";
+import { getEmojiByWeather, getForecastData } from "@/utils/weather";
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
@@ -22,6 +22,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const hourIndex = Math.trunc(new Date().getHours() / 3)
+      //Willbe update later
       const currentWeatherDetail: WeatherData[] = await getForecastData(weatherLocation, 0, hourIndex, tempatureScale).finally(() => isLoadingWeather.value = true)
       weatherData.value = currentWeatherDetail[hourIndex]
       updateTime();

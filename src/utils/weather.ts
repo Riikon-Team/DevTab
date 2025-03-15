@@ -1,8 +1,8 @@
-import type { WeatherData, WeatherContent } from "@/constants/weather"
+import type { WeatherData, WeatherContent, WeatherStorage } from "@/constants/weather"
 
-async function fetchForecastData(location: string, hourlyIndex: number, scale: string) {
+async function fetchForecastData(location: string, hourlyIndex: number, scale: string): Promise<WeatherStorage> {
     const data = localStorage.getItem('weatherData')
-    const jsonData = data ? JSON.parse(data) : null
+    const jsonData = data ? JSON.parse(data) as WeatherStorage : null
 
     if (!jsonData || new Date(jsonData.updatedTime).getDate() !== new Date().getDate() || location !== jsonData.location || jsonData.tempatureScale !== scale) {
         return fetch(`https://wttr.in/${location}?format=j1&`)
@@ -10,7 +10,8 @@ async function fetchForecastData(location: string, hourlyIndex: number, scale: s
             .then(data => {
                 let result: WeatherData[] = []
                 //Temporary code
-                const jsonContent = {
+                //Will be optimized
+                const jsonContent: WeatherStorage = {
                     'location': location,
                     'data': [] as WeatherContent[],
                     'updatedTime': new Date(),
@@ -34,17 +35,21 @@ async function fetchForecastData(location: string, hourlyIndex: number, scale: s
                 return jsonContent
             })
     }
-    else return await jsonData
+    else return jsonData
 }
 
-// Get only forecast data by index
-export default async function getForecastData(location: string, index: number, hourlyIndex: number, scale: string) {
+/**
+ * Get only forecast data by index
+ * @deprecated Will be deprecated. Prefer using `getFullForecastData` instead.
+ * @since v1.0.5
+ */
+export async function getForecastData(location: string, index: number, hourlyIndex: number, scale: string): Promise<WeatherData[]> {
     const jsonData = await fetchForecastData(location, hourlyIndex, scale)
-    return jsonData['data'][index]['detail']
+    return jsonData['data'][index]['detail'] as WeatherData[]
 }
 
 // Get the whole forecast detail
-export async function getFullForecastData(location: string, hourlyIndex: number, scale: string) {
+export async function getFullForecastData(location: string, hourlyIndex: number, scale: string): Promise<WeatherStorage> {
     return await fetchForecastData(location, hourlyIndex, scale)
 }
 

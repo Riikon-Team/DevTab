@@ -1,5 +1,5 @@
 import type { WeatherContent, WeatherData } from "@/constants/weather";
-import getForecastData, { getEmojiByWeather, getFullForecastData } from "@/utils/weather";
+import { getEmojiByWeather, getFullForecastData } from "@/utils/weather";
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
@@ -17,11 +17,9 @@ export default defineComponent({
             try {
                 //Default value just for testing
                 const hourIndex = Math.trunc(new Date().getHours() / 3)
-                //Will be removed
-                const currentWeatherDetail: WeatherData[] = await getForecastData(weatherLocation, 0, hourIndex, tempatureScale).finally(() => setTimeout(() => loading.value = false, 500))
-                // forecastData.value = await Promise.all([getForecastData(weatherLocation, 0, hourIndex), getForecastData(weatherLocation, 1, hourIndex), getForecastData('Hồ Chí Minh', 2, hourIndex)])
                 forecastData.value = await getFullForecastData(weatherLocation, hourIndex, tempatureScale)
-                weatherData.value = currentWeatherDetail[hourIndex]
+                weatherData.value = forecastData.value.data[0].detail[hourIndex]
+                setTimeout(() => loading.value = false, 500)
             }
             catch {
                 error.value = true
