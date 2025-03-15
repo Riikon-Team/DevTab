@@ -41,12 +41,12 @@ export default defineComponent({
                                 <i class="bi bi-geo-alt me-2"></i>
                                 <span class="fw-semibold">{weatherData.value.location}</span>
                             </p>
-                            <p class="mb-4 text-start">
-                                <span>{new Date().toLocaleDateString('en-GB')}</span>
+                            <p class="mb-4 text-start fw-light">
+                                {new Date().toLocaleDateString('en-GB')}
                             </p>
                             <p class="mb-3 display-1 text-center">{getEmojiByWeather(weatherData.value.weather.toUpperCase().trim())}</p>
                             <p class="mb-1 text-center"><span class="fw-semibold h2">{weatherData.value.tempature}</span></p>
-                            <p class="mb-1 text-center">Humidity: <span class="fw-semibold">{weatherData.value.humidity}</span></p>
+                            <p class="mt-2 text-center">💧<span class="fw-semibold">{weatherData.value.humidity}</span></p>
                         </div>
 
                         <div class="d-flex overflow-x-auto rounded p-1 mt-5">
@@ -54,8 +54,6 @@ export default defineComponent({
                                 forecastData.value?.data.map((date: WeatherContent, index: number) => {
                                     const today = new Date(forecastData.value?.updatedTime)
                                     today.setDate(today.getDate() + index)
-                                    console.log(forecastData.value.data)
-                                    console.log(date)
                                     return date.detail.map((element: WeatherData, index: number) => {
                                         return (
                                             <div class={index === 0 ? "" : "px-3"}>
