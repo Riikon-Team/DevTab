@@ -1,5 +1,5 @@
 import type { WeatherData } from '@/constants/weather';
-import getForecastData from '@/utils/weather';
+import getForecastData, { getEmojiByWeather } from "@/utils/weather";
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
@@ -7,6 +7,7 @@ export default defineComponent({
   setup() {
     const time = ref(new Date());
     const weatherData = ref<WeatherData | null>(null)
+    const isLoadingWeather = ref(false)
 
     let timerInterval: ReturnType<typeof setInterval>;
 
@@ -19,7 +20,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const hourIndex = Math.trunc(new Date().getHours() / 3)
-      const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex)
+      const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => isLoadingWeather.value = true)
       weatherData.value = currentWeatherDetail[hourIndex]
       updateTime();
       timerInterval = setInterval(updateTime, 400);
@@ -57,7 +58,10 @@ export default defineComponent({
           ))}
         </div>
         <div class="tempatuere mt-2">
-          <h4 class="fw-normal">{weatherData.value?.tempature}</h4>
+          <h4 class="fw-normal">
+            {isLoadingWeather.value && getEmojiByWeather(weatherData.value?.weather.toUpperCase().trim() as string)}
+            {weatherData.value?.tempature}
+          </h4>
         </div>
       </div>
     );

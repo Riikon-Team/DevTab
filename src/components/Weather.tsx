@@ -14,8 +14,7 @@ export default defineComponent({
             try {
                 //Default value just for testing
                 const hourIndex = Math.trunc(new Date().getHours() / 3)
-                const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => loading.value = false)
-
+                const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => setTimeout(() => loading.value = false, 500))
                 forecastData.value = await Promise.all([getForecastData('Hồ Chí Minh', 0, hourIndex), getForecastData('Hồ Chí Minh', 1, hourIndex), getForecastData('Hồ Chí Minh', 2, hourIndex)])
                 weatherData.value = currentWeatherDetail[hourIndex]
             }
@@ -35,18 +34,22 @@ export default defineComponent({
                 ) : weatherData.value ? (
                     <div class="p-3 rounded bg-transparent position-relative">
                         <div>
-                            <p class="mb-4 text-start">
+                            <p class="mb-1 text-start">
                                 <i class="bi bi-geo-alt me-2"></i>
                                 <span class="fw-semibold">{weatherData.value.location}</span>
                             </p>
-                            <p class="mb-4 display-1 text-center">{getEmojiByWeather(weatherData.value.weather.toUpperCase().trim())}</p>
+                            <p class="mb-4 text-start">
+                                <span>{new Date().toLocaleDateString('en-GB')}</span>
+                            </p>
+                            <p class="mb-3 display-1 text-center">{getEmojiByWeather(weatherData.value.weather.toUpperCase().trim())}</p>
                             <p class="mb-1 text-center"><span class="fw-semibold h2">{weatherData.value.tempature}</span></p>
+                            <p class="mb-1 text-center fw-normal" style={{fontSize: '18px'}}>
+                                {new Date().getHours().toString().padStart(2, '0') + ":" + new Date().getMinutes().toString().padStart(2, '0')}
+                            </p>
                             <p class="mb-1 text-center">Humidity: <span class="fw-semibold">{weatherData.value.humidity}</span></p>
-                            <p class="mb-1 text-center">{new Date().toLocaleDateString('en-GB')}</p>
                         </div>
 
-
-                        <div class="d-flex overflow-x-auto rounded p-1 mt-4">
+                        <div class="d-flex overflow-x-auto rounded p-1 mt-5">
                             {
                                 forecastData.value?.map((date, index) => {
                                     const today = new Date()
@@ -78,7 +81,7 @@ export default defineComponent({
                             }
                         </div>
 
-                        <div>
+                        <div class="position-fixed" style={{bottom: '0'}}>
                             <p style={{ fontSize: '12px' }} class="mt-2 text-end">Updated at: {weatherData.value.updatedAt}</p>
                         </div>
                     </div>
