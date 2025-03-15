@@ -1,22 +1,20 @@
-import type { WeatherData } from "@/constants/weather"
+import type { WeatherData, WeatherContent } from "@/constants/weather"
 
-interface WeatherContent {
-    detail: WeatherData[]
-}
-
-export default async function getForecastData(location: string, index: number, hourlyIndex: number) {
+async function fetchForecastData(location: string, hourlyIndex: number, scale: string) {
     const data = localStorage.getItem('weatherData')
     const jsonData = data ? JSON.parse(data) : null
-    
-    if (!jsonData || new Date(jsonData.updatedTime).getDate() !== new Date().getDate()) {
+
+    if (!jsonData || new Date(jsonData.updatedTime).getDate() !== new Date().getDate() || location !== jsonData.location || jsonData.tempatureScale !== scale) {
         return fetch(`https://wttr.in/${location}?format=j1&`)
             .then(data => data.json())
             .then(data => {
                 let result: WeatherData[] = []
                 //Temporary code
                 const jsonContent = {
+                    'location': location,
                     'data': [] as WeatherContent[],
-                    'updatedTime': new Date()
+                    'updatedTime': new Date(),
+                    'tempatureScale': scale
                 }
                 for (const detail of data['weather']) {
                     result = []
@@ -24,21 +22,34 @@ export default async function getForecastData(location: string, index: number, h
                         result.push({
                             location: data['nearest_area'][0]['areaName'][0]['value'],
                             weather: element['weatherDesc'][0]['value'],
-                            tempature: element["tempC"] + "°C",
+                            tempature: element[scale === 'C' ? "tempC": "tempF"] + (scale === 'C' ? "°C" :  "°F"),
                             humidity: element["humidity"] + "%",
                             updatedAt: (hourlyIndex * 3) + ":00"
                         })
                     }
-                    jsonContent.data.push({detail: result})
+                    jsonContent.data.push({ detail: result })
                 }
                 localStorage.setItem('weatherData', JSON.stringify(jsonContent))
 
-                return result
+                return jsonContent
             })
     }
-    else return await jsonData['data'][index]['detail']
+    else return await jsonData
 }
 
+// Get only forecast data by index
+export default async function getForecastData(location: string, index: number, hourlyIndex: number, scale: string) {
+    const jsonData = await fetchForecastData(location, hourlyIndex, scale)
+    return jsonData['data'][index]['detail']
+}
+
+// Get the whole forecast detail
+export async function getFullForecastData(location: string, hourlyIndex: number, scale: string) {
+    return await fetchForecastData(location, hourlyIndex, scale)
+}
+
+
+// Get emoji by weather to display on web
 export function getEmojiByWeather(weather: string): string {
     if (!weather) return '❓'
 
@@ -46,6 +57,7 @@ export function getEmojiByWeather(weather: string): string {
         { 'pattern': 'CLEAR', 'emoji': '☀️' },
         { 'pattern': 'SUNNY', 'emoji': '☀️' },
         { 'pattern': 'CLOUD', 'emoji': '☁️' },
+        { 'pattern': 'OVERCAST', 'emoji': '☁️' },
         { 'pattern': 'RAIN', 'emoji': '🌧️' },
         { 'pattern': 'HEAVY RAIN', 'emoji': '⛈️' },
         { 'pattern': 'STORM', 'emoji': '🌀' },

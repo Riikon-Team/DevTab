@@ -13,6 +13,8 @@ export default defineComponent({
 
     const weekDays = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
     const currentDay = time.value.getDay();
+    const weatherLocation = localStorage.getItem('weatherLocation') || "Hồ Chí Minh"
+    const tempatureScale = localStorage.getItem('tempatureScale') || "C"
 
     const updateTime = () => {
       time.value = new Date();
@@ -20,7 +22,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const hourIndex = Math.trunc(new Date().getHours() / 3)
-      const currentWeatherDetail: WeatherData[] = await getForecastData('Hồ Chí Minh', 0, hourIndex).finally(() => isLoadingWeather.value = true)
+      const currentWeatherDetail: WeatherData[] = await getForecastData(weatherLocation, 0, hourIndex, tempatureScale).finally(() => isLoadingWeather.value = true)
       weatherData.value = currentWeatherDetail[hourIndex]
       updateTime();
       timerInterval = setInterval(updateTime, 400);

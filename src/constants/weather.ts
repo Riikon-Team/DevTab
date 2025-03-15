@@ -5,3 +5,7 @@ export interface WeatherData {
     humidity: string,
     updatedAt: string
 }
+
+export interface WeatherContent {
+    detail: WeatherData[]
+}
