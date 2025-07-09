@@ -1,29 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Clock.css";
+import { useClockSettings } from "../../contexts/SettingsContext";
 
 const weekDays = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
 
-type ClockProps = {
-  timezone?: number;
-  locateCode?: string;
-  hour12?: boolean;
-  showSeconds?: boolean;
-  showWeekdays?: boolean;
-  transparentBackground?: boolean;
-};
+const Clock: React.FC = () => {
+  const { clockSettings } = useClockSettings();
 
-const Clock: React.FC<ClockProps> = ({
-  timezone = +7,
-  locateCode = "vi-VN",
-  hour12 = false,
-  showSeconds = true,
-  showWeekdays = false,
-  transparentBackground = true,
-}) => {
   const computeTime = () => {
     const now = new Date();
     const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utcMs + timezone * 3600 * 1000);
+    return new Date(utcMs + clockSettings.timezone * 3600 * 1000);
   };
   const [time, setTime] = useState(computeTime);
   const timerRef = useRef<number | undefined>(undefined);
@@ -40,21 +27,21 @@ const Clock: React.FC<ClockProps> = ({
   const currentDay = time.getDay();
 
   return (
-    <div className={`clock-container text-center ${transparentBackground ? "transparent" : ""}`}>
+    <div className={`clock-container text-center ${clockSettings.transparentBackground ? "transparent" : ""}`}>
       <div className="digital-clock">
-        {time.toLocaleTimeString(locateCode, {
-          hour12: hour12,
+        {time.toLocaleTimeString(clockSettings.locateCode, {
+          hour12: clockSettings.hour12,
           hour: "2-digit",
           minute: "2-digit",
-          second: showSeconds ? "2-digit" : undefined,
+          second: clockSettings.showSeconds ? "2-digit" : undefined,
         })}
       </div>
       <div className="date">
-        {time.toLocaleDateString(locateCode, {
+        {time.toLocaleDateString(clockSettings.locateCode, {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
-          weekday: showWeekdays ? "short" : undefined,
+          weekday: clockSettings.showWeekdays ? "short" : undefined,
         })}
       </div>
       <div className="weekdays">

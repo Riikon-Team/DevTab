@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import Clock from "./components/Clock/Clock";
 import Background from "./components/Background/Background";
@@ -6,7 +5,6 @@ import Setting from "./components/Setting/Setting";
 import SearchBar from "./components/SearchEngine/SearchBar";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>
