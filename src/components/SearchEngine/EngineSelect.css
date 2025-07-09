@@ -1,0 +1,57 @@
+.engine-select-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  cursor: pointer;
+  position: relative;
+  padding: 0.2em 0.5em;
+  border-radius: 6px;
+  transition: background 0.15s;
+  user-select: none;
+}
+.engine-select-custom:focus,
+.engine-select-custom:hover {
+  background: rgba(100,108,255,0.12);
+}
+.engine-caret {
+  font-size: 0.8em;
+  margin-left: 0.3em;
+}
+.engine-dropdown {
+  position: absolute;
+  left: 0;
+  top: 110%;
+  background: var(--bg-card, #2d2d2d);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 20;
+  min-width: 140px;
+  padding: 0.2em 0;
+  margin: 0;
+  list-style: none;
+}
+.engine-dropdown li {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  color: var(--text-primary, #fff);
+  transition: background 0.15s;
+}
+.engine-dropdown li.active,
+.engine-dropdown li:hover {
+  background: var(--primary-color, #646cff);
+  color: #fff;
+}
+.engine-name {
+  font-size: 1em;
+}
+.engine-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
+  margin-left: 0.2em;
+}

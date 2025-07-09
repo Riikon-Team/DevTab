@@ -1,37 +1,69 @@
-# DevTab
+# React + TypeScript + Vite
 
-## Overview
-The DevTab extension brings a new perspective to your development workflow, transforming your browser's new tab into a powerful development hub. With seamless integration of essential tools and resources, it helps boost your productivity while keeping you connected to your development ecosystem.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This extension is designed to streamline your daily development tasks by providing quick access to commonly used resources, all in one convenient location.
+Currently, two official plugins are available:
 
-## Features
-- Fully customizable new tab interface
-- Personal development dashboard
-- Entertainment integration
-- Flexible layout options
-- More features coming soon!
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## About the Project
-DevTab is a personal project focused on creating a more enjoyable and productive browsing experience. It's currently under active development with plans to add more features and customization options.
+## Expanding the ESLint configuration
 
-## Tech Stack
-- React.js
-- TypeScript
-- Vite
-- Chrome Extension API
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Developer
-Created by Konnn04, a passionate developer focused on building tools that enhance the development experience.
+```js
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Building from Source
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Build the project: `npm run build`
-4. Load the extension in Chrome from the `dist` folder
+      // Remove tseslint.configs.recommended and replace with this
+      ...tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      ...tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      ...tseslint.configs.stylisticTypeChecked,
 
-## Contributing
-This is a personal project but suggestions and feedback are welcome!
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-## License
-MIT License
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
