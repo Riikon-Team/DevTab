@@ -1,0 +1,81 @@
+.settings-drawer *.MuiPaper-root {
+    background-image: none !important;
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 1em;
+  padding: 1em;
+  border-bottom: 1px solid #444;
+}
+
+.settings-header h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  color: #f0f0f0;
+}
+
+.settings-header p {
+  font-size: 0.9em;
+  margin: 0;
+  color: #b0b0b0;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.settings-content * {
+  color: #f0f0f0!important;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5em 0;
+  gap: 1em;
+}
+
+.setting-item label {
+  font-weight: 500;
+  flex: 1;
+  color: #f0f0f0;
+}
+
+.setting-item *{
+  color: #f0f0f0!important;
+}
+
+.setting-item option {
+  background-color: #333!important;
+  color: #f0f0f0!important;
+}
+
+.settings-icon:hover {
+  transform: rotate(360deg);
+  animation: rotateInfinite 2s linear infinite;
+}
+
+@keyframes rotateInfinite {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Thêm hoặc cập nhật CSS này */
+.MuiPaper-root {
+  background-image: none !important;
+}
+
+.settings-drawer .MuiPaper-root {
+  background-image: none !important;
+}
+
+.setting-item .MuiSwitch-track {
+  background-image: none !important;
+}

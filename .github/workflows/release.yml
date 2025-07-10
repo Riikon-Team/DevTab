@@ -43,6 +43,23 @@ jobs:
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 ${{ steps.current_tag.outputs.TAG }}^ 2>/dev/null || echo "")
           echo "TAG=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
 
+      - name: Check if this is a beta release
+        id: check_beta
+        run: |
+          IS_BETA=$(echo "${{ steps.current_tag.outputs.TAG }}" | grep -E '\-beta|\-alpha|\-rc' && echo "true" || echo "false")
+          echo "IS_BETA=$IS_BETA" >> $GITHUB_OUTPUT
+          
+          # Determine beta type for release title
+          if echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-beta"; then
+            echo "BETA_TYPE=Beta" >> $GITHUB_OUTPUT
+          elif echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-alpha"; then
+            echo "BETA_TYPE=Alpha" >> $GITHUB_OUTPUT
+          elif echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-rc"; then
+            echo "BETA_TYPE=Release Candidate" >> $GITHUB_OUTPUT
+          else
+            echo "BETA_TYPE=Preview" >> $GITHUB_OUTPUT
+          fi
+
       - name: Generate changelog from PRs
         id: changelog
         env:
@@ -61,23 +78,26 @@ jobs:
           echo "# Changes in $CURRENT_TAG" > changelog.md
           echo "" >> changelog.md
           
+          # Add Beta notice if applicable
+          if [[ "${{ steps.check_beta.outputs.IS_BETA }}" == "true" ]]; then
+            echo "## ⚠️ ${{ steps.check_beta.outputs.BETA_TYPE }} RELEASE" >> changelog.md
+            echo "This is a ${{ steps.check_beta.outputs.BETA_TYPE }} release and may contain bugs or incomplete features." >> changelog.md
+            echo "" >> changelog.md
+          fi
+          
           if [ -z "$PR_LIST" ]; then
             echo "No pull requests found for this release." >> changelog.md
           else
             echo "$PR_LIST" >> changelog.md
           fi
-          
-          # Escaping for GitHub Actions
-          cat changelog.md | perl -pe 's/\%/\%25/g' | perl -pe 's/\n/\%0A/g' | perl -pe 's/\r/\%0D/g' > changelog_escaped.md
-          echo "CHANGELOG=$(cat changelog_escaped.md)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: devtab_${{ github.ref_name }}.zip
-          name: Release ${{ github.ref_name }}
+          name: ${{ steps.check_beta.outputs.IS_BETA == 'true' && format('{0} Release', steps.check_beta.outputs.BETA_TYPE) || 'Release' }} ${{ github.ref_name }}
           body_path: changelog.md
           draft: false
-          prerelease: false
+          prerelease: ${{ steps.check_beta.outputs.IS_BETA == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

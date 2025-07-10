@@ -1,0 +1,66 @@
+.weather-widget {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.weather-widget:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.weather-widget .rotating {
+  animation: rotate 1.5s linear infinite;
+}
+
+.weather-widget .MuiCircularProgress-root {
+  animation: rotate 2s linear infinite;
+}
+
+.weather-widget .MuiBox-root::-webkit-scrollbar {
+  height: 6px;
+}
+
+.weather-widget .MuiBox-root::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.weather-widget .MuiBox-root::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.weather-widget .MuiIconButton-root {
+  transition: all 0.2s ease;
+}
+
+.weather-widget .MuiIconButton-root:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.weather-widget .MuiGrid-item:hover {
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .weather-widget {
+    min-width: 100%;
+  }
+  
+  .weather-widget .MuiTypography-h1 {
+    font-size: 3rem !important;
+  }
+  
+  .weather-widget .MuiTypography-h4 {
+    font-size: 1.5rem !important;
+  }
+}

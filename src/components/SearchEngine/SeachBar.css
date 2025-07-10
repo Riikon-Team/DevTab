@@ -1,0 +1,107 @@
+.searchbar-container {
+    display: flex;
+    align-items: center;
+    background: var(--background-paper);
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+    min-width: 350px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.searchbar-container.transparent {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(10px) brightness(0.9);
+    backdrop-filter: blur(10px) brightness(0.9);
+}
+
+.searchbar-engine {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5em;
+    gap: 0.3em;
+}
+
+.engine-select {
+    border: none;
+    background: transparent;
+    color: var(--text-primary, #fff);
+    font-weight: bold;
+    font-size: 1em;
+    outline: none;
+    cursor: pointer;
+}
+
+.engine-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    object-fit: contain;
+    margin-left: 0.2em;
+}
+
+.searchbar-input-wrap {
+    flex: 1;
+    position: relative;
+}
+
+.searchbar-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1.1em;
+    padding: 0.5em 0.5em;
+    outline: none;
+}
+
+.searchbar-suggestions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 110%;
+    background: var(--background-paper);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+    margin: 0;
+    padding: 0.2em 0;
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.searchbar-suggestions li {
+    padding: 0.5em 1em;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: background 0.15s;
+}
+
+.searchbar-suggestions li.active,
+.searchbar-suggestions li:hover {
+    background: var(--primary-main);
+    color: white;
+}
+
+.searchbar-btn {
+    border: none;
+    /* background: var(--primary-color, #646cff); */
+    background-color: transparent;
+    color: #fff;
+    font-size: 1.2em;
+    border-radius: 6px;
+    padding: 0.4em 0.8em;
+    margin-left: 0.5em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.searchbar-btn:hover {
+    /* background: var(--primary-hover, #535bf2); */
+    background-color: rgba(0, 0, 0, 0.08)
+}
