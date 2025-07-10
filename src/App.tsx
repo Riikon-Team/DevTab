@@ -40,13 +40,11 @@ function App() {
       </div>
       <footer id="app-footer">
         <div id="footer-left">
-          <span>DevTab</span>
         </div>
         <div id="footer-center">
-          <span>Made with ❤️ by Riikon Team</span>
         </div>
         <div id="footer-right">
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }} className="footer-right-content">
             <Setting />
             <div className="expand-button btn" onClick={() => updateGeneralSettings({ explanded: !generalSettings.explanded })}>
               {generalSettings.explanded ? <VisibilityOffIcon /> : <VisibilityIcon />}

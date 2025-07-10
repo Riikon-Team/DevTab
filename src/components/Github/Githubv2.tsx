@@ -9,14 +9,14 @@ import { type GitHubData } from "../../constants/Githubv2";
 import { PROXY } from "../../constants/SearchEngine";
 import "./Githubv2.css";
 
-const Githubv2: React.FC = () => {
+const Githubv2: React.FC = React.memo(() => {
   const [data, setData] = useState<GitHubData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { githubSettings, updateGithubSettings } = useGithubSettings();
   const theme = useTheme();
 
-  // Đảm bảo các giá trị settings luôn có giá trị mặc định
+  // Ensure settings always have default values
   const settings = {
     username: githubSettings?.username || "",
     showUserInfo: githubSettings?.showUserInfo === false ? false : true,
@@ -42,7 +42,7 @@ const Githubv2: React.FC = () => {
         }
       }
     } else {
-      // Lưu username vào localStorage để dùng sau này
+      // Save username to localStorage for future use
       localStorage.setItem("github_username", settings.username);
     }
   }, [githubSettings]);
@@ -58,7 +58,7 @@ const Githubv2: React.FC = () => {
       try {
         setLoading(true);
 
-        // Kiểm tra cache trước
+        // Check cache first
         const cachedData = localStorage.getItem(`github_data_${settings.username}`);
 
         if (cachedData) {
@@ -74,7 +74,7 @@ const Githubv2: React.FC = () => {
           }
         }
 
-        // Nếu không có cache hoặc cache hết hạn, gọi API
+        // If no cache or cache expired, call API
         const apiUrl = `https://profile-summary-for-github.com/api/user/${settings.username}`;
         const response = await fetch(PROXY ? `${PROXY}${encodeURIComponent(apiUrl)}` : apiUrl);
 
@@ -83,7 +83,7 @@ const Githubv2: React.FC = () => {
         }
 
         const freshData = await response.json();
-        freshData.cachedAt = Date.now(); // Thêm timestamp cache
+        freshData.cachedAt = Date.now(); // Add cache timestamp
 
         localStorage.setItem(`github_data_${settings.username}`, JSON.stringify(freshData));
 
@@ -214,7 +214,7 @@ const Githubv2: React.FC = () => {
                   commitCount: data.langCommitCount,
                 }}
                 excludedLanguages={settings.excludedLanguages}
-                chartHeight={settings.chartSize} // Giữ nguyên chart height để đủ không gian
+                chartHeight={settings.chartSize} // Keep chart height for space
                 fontSize={settings.fontSize}
                 compactMode={settings.compactMode}
               />
@@ -247,6 +247,6 @@ const Githubv2: React.FC = () => {
       </Grid>
     </Box>
   );
-};
+});
 
 export default Githubv2;

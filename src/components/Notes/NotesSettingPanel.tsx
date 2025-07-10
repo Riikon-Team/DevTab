@@ -49,7 +49,7 @@ const NotesSettingPanel: React.FC = () => {
   return (
     <Box sx={{ width: '100%', padding: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Cài đặt ghi chú
+        Notes Settings
       </Typography>
       
       <Box sx={{ mb: 2 }}>
@@ -60,14 +60,14 @@ const NotesSettingPanel: React.FC = () => {
               onChange={(e) => handleSettingChange('enable', e.target.checked)}
             />
           }
-          label="Hiển thị ghi chú"
+          label="Show notes"
         />
       </Box>
       
       <Divider sx={{ my: 2 }} />
       
       <Typography variant="subtitle1" gutterBottom>
-        Giao diện
+        Interface
       </Typography>
       
       <Box sx={{ mb: 2 }}>
@@ -78,14 +78,14 @@ const NotesSettingPanel: React.FC = () => {
               onChange={(e) => handleSettingChange('backgroundTransparent', e.target.checked)}
             />
           }
-          label="Nền trong suốt"
+          label="Transparent background"
         />
       </Box>
       
       {settings.backgroundTransparent && (
         <Box sx={{ mb: 2 }}>
           <Typography id="blur-slider" gutterBottom>
-            Hiệu ứng mờ: {settings.blur}px
+            Blur effect: {settings.blur}px
           </Typography>
           <Slider
             value={settings.blur}
@@ -102,7 +102,7 @@ const NotesSettingPanel: React.FC = () => {
       
       <Box sx={{ mb: 2 }}>
         <Typography id="font-size-slider" gutterBottom>
-          Cỡ chữ: {settings.fontSize}px
+          Font size: {settings.fontSize}px
         </Typography>
         <Slider
           value={settings.fontSize}
@@ -124,17 +124,17 @@ const NotesSettingPanel: React.FC = () => {
               onChange={(e) => handleSettingChange('expandedView', e.target.checked)}
             />
           }
-          label="Chế độ xem mở rộng (mặc định)"
+          label="Expanded view mode (default)"
         />
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', ml: 2 }}>
-          Hiển thị chi tiết hơn cho mỗi ghi chú
+          Show more details for each note
         </Typography>
       </Box>
       
       <Divider sx={{ my: 2 }} />
       
       <Typography variant="subtitle1" gutterBottom>
-        Hiển thị và sắp xếp
+        Display and sorting
       </Typography>
       
       <Box sx={{ mb: 2 }}>
@@ -145,44 +145,44 @@ const NotesSettingPanel: React.FC = () => {
               onChange={(e) => handleSettingChange('showDeadline', e.target.checked)}
             />
           }
-          label="Hiển thị deadline"
+          label="Show deadline"
         />
       </Box>
       
       <Box sx={{ mb: 2 }}>
         <FormControl fullWidth size="small">
-          <InputLabel id="sort-by-label">Sắp xếp theo</InputLabel>
+          <InputLabel id="sort-by-label">Sort by</InputLabel>
           <Select
             labelId="sort-by-label"
             value={settings.sortBy}
-            label="Sắp xếp theo"
+            label="Sort by"
             onChange={(e) => handleSettingChange('sortBy', e.target.value as typeof settings.sortBy)}
           >
-            <MenuItem value="createdAt">Ngày tạo</MenuItem>
+            <MenuItem value="createdAt">Creation date</MenuItem>
             <MenuItem value="deadline">Deadline</MenuItem>
-            <MenuItem value="title">Tiêu đề</MenuItem>
+            <MenuItem value="title">Title</MenuItem>
           </Select>
         </FormControl>
       </Box>
       
       <Box sx={{ mb: 2 }}>
         <FormControl fullWidth size="small">
-          <InputLabel id="sort-direction-label">Thứ tự sắp xếp</InputLabel>
+          <InputLabel id="sort-direction-label">Sort order</InputLabel>
           <Select
             labelId="sort-direction-label"
             value={settings.sortDirection}
-            label="Thứ tự sắp xếp"
+            label="Sort order"
             onChange={(e) => handleSettingChange('sortDirection', e.target.value as typeof settings.sortDirection)}
           >
-            <MenuItem value="asc">Tăng dần</MenuItem>
-            <MenuItem value="desc">Giảm dần</MenuItem>
+            <MenuItem value="asc">Ascending</MenuItem>
+            <MenuItem value="desc">Descending</MenuItem>
           </Select>
         </FormControl>
       </Box>
       
       <Collapse in={saveNotification}>
         <Alert severity="success" sx={{ mt: 2 }}>
-          Cài đặt đã được lưu!
+          Settings saved!
         </Alert>
       </Collapse>
     </Box>

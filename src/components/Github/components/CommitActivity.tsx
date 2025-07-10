@@ -8,13 +8,12 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartData,
-  ChartOptions
 } from 'chart.js';
+import type { ChartData, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { blue, indigo, purple } from '@mui/material/colors';
 
-// Đăng ký các thành phần Chart.js cần thiết
+// Register necessary Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,

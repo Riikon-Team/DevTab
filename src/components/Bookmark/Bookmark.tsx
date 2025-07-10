@@ -12,7 +12,7 @@ import { sampleBookmarks } from "../../test/bookmark";
 declare const chrome: any;
 declare const browser: any;
 
-const Bookmark: React.FC<BookmarkProps> = () => {
+const Bookmark: React.FC<BookmarkProps> = React.memo(() => {
   const { bookmarkSettings } = useBookmarkSettings();
   const [bookmarks, setBookmarks] = useState<BookmarkNode[]>([]);
   const [loading, setLoading] = useState(true);
@@ -318,6 +318,6 @@ const Bookmark: React.FC<BookmarkProps> = () => {
       </div>
     </AppBar>
   );
-};
+});
 
 export default Bookmark;

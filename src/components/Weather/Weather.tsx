@@ -26,7 +26,7 @@ import { fetchForecastData, getEmojiByWeather } from "../../utils/weatherUtils";
 import { type WeatherData, type WeatherStorage } from "../../constants/Weather";
 import "./Weather.css";
 
-const Weather: React.FC = () => {
+const Weather: React.FC = React.memo(() => {
   const theme = useTheme();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [forecastData, setForecastData] = useState<WeatherStorage | null>(null);
@@ -166,8 +166,8 @@ const Weather: React.FC = () => {
             }}
           >
             <CircularProgress color="primary" size={36} />
-            <Typography variant="body2" sx={{ mt: 2, fontSize: fontSizes.date }}>
-              Đang tải dữ liệu thời tiết...
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: fontSizes.date }}>
+              Loading weather data...
             </Typography>
           </Box>
         ) : error ? (
@@ -209,7 +209,7 @@ const Weather: React.FC = () => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 {/* Chỉ hiển thị nút refresh khi mở rộng */}
                 {expanded && (
-                  <Tooltip title="Làm mới dữ liệu thời tiết">
+                  <Tooltip title="Refresh weather data">
                     <IconButton
                       size="small"
                       onClick={fetchWeather}
@@ -223,7 +223,7 @@ const Weather: React.FC = () => {
                   </Tooltip>
                 )}
                 
-                <Tooltip title={expanded ? "Thu gọn" : "Xem thêm"}>
+                <Tooltip title={expanded ? "Collapse" : "Show more"}>
                   <IconButton
                     size="small"
                     onClick={() => setExpanded(!expanded)}
@@ -428,7 +428,7 @@ const Weather: React.FC = () => {
                   return (
                     <Tab
                       key={index}
-                      label={index === 0 ? "Hôm nay" : formatDate(date)}
+                      label={index === 0 ? "Today" : formatDate(date)}
                       sx={{ fontSize: fontSizes.tabLabel }}
                     />
                   );
@@ -515,7 +515,7 @@ const Weather: React.FC = () => {
                   color="text.secondary"
                   sx={{ fontSize: fontSizes.caption }}
                 >
-                  Cập nhật: {new Date(forecastData.updatedTime).toLocaleTimeString("vi-VN")}
+                  Updated: {new Date(forecastData.updatedTime).toLocaleTimeString("vi-VN")}
                 </Typography>
               </Box>
             </Collapse>
@@ -524,6 +524,6 @@ const Weather: React.FC = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default Weather;

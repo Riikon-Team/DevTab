@@ -43,7 +43,7 @@ const WeatherSettingPanel: React.FC = () => {
     location: weatherSettings?.location || localStorage.getItem('weatherLocation') || "Hồ Chí Minh",
     tempScale: (weatherSettings?.tempScale || localStorage.getItem('tempatureScale') || "C") as 'C' | 'F',
     refreshInterval: weatherSettings?.refreshInterval || 30,
-    backgroundTransparent: true, // Mặc định là transparent
+    backgroundTransparent: true, // Default is transparent
     fontSize: weatherSettings?.fontSize || 14
   }), [weatherSettings]);
   
@@ -164,7 +164,7 @@ const WeatherSettingPanel: React.FC = () => {
           
           {/* Popular Cities */}
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 0.5 }}>
-            Thành phố phổ biến:
+            Popular cities:
           </Typography>
           
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
@@ -204,9 +204,9 @@ const WeatherSettingPanel: React.FC = () => {
               max={18}
               step={1}
               marks={[
-                { value: 10, label: 'Nhỏ' },
-                { value: 14, label: 'Vừa' },
-                { value: 18, label: 'Lớn' },
+                { value: 10, label: 'Small' },
+                { value: 14, label: 'Medium' },
+                { value: 18, label: 'Large' },
               ]}
               valueLabelDisplay="auto"
               valueLabelFormat={(value) => `${value}px`}

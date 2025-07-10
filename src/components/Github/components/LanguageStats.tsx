@@ -1,10 +1,11 @@
 import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
 import { Box, Card, CardContent, Typography, useTheme, Tab, Tabs } from '@mui/material';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, type ChartData, type ChartOptions } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import type { ChartData, ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { deepPurple, blue, amber, green, pink, orange, cyan } from '@mui/material/colors';
 
-// Đăng ký các thành phần Chart.js cần thiết
+// Register necessary Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface LanguageStatsProps {

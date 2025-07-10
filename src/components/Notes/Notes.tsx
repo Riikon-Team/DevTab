@@ -57,7 +57,7 @@ const NOTE_COLORS = [
   '#fdcfe8', // hồng
 ];
 
-const Notes: React.FC = () => {
+const Notes: React.FC = React.memo(() => {
   const theme = useTheme();
   const { notesSettings, updateNotesSettings } = useNotesSettings();
   
@@ -243,10 +243,10 @@ const Notes: React.FC = () => {
   const formatDate = (dateString: string) => {
     try {
       const date = parseISO(dateString);
-      if (!isValid(date)) return 'Ngày không hợp lệ';
+      if (!isValid(date)) return 'Invalid date';
       return format(date, 'dd/MM/yyyy', { locale: vi });
     } catch (e) {
-      return 'Ngày không hợp lệ';
+      return 'Invalid date';
     }
   };
 
@@ -337,7 +337,7 @@ const Notes: React.FC = () => {
                 fontSize: settings.fontSize - 2, 
                 fontWeight: settings.sortBy === 'title' && settings.sortDirection === 'desc' ? 'bold' : 'normal' 
               }}>
-                Tiêu đề (Z-A)
+                Title (Z-A)
               </Typography>
             </MenuItem>
             {settings.showDeadline && (
@@ -723,7 +723,7 @@ const Notes: React.FC = () => {
           
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" sx={{ mb: 1, fontSize: settings.fontSize - 1 }}>
-              Màu sắc
+              Color
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {NOTE_COLORS.map((color) => (
@@ -826,7 +826,7 @@ const Notes: React.FC = () => {
             onClick={handleCloseDialog}
             sx={{ fontSize: settings.fontSize - 1 }}
           >
-            Hủy
+            Cancel
           </Button>
           <Button 
             onClick={handleSaveNote}
@@ -839,6 +839,6 @@ const Notes: React.FC = () => {
       </Dialog>
     </Box>
   );
-};
+});
 
 export default Notes;

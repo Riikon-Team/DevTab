@@ -79,6 +79,15 @@
   padding-right: 0.5em;
 }
 
+.footer-right-content{
+  opacity: 0.1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#footer-right:hover .footer-right-content{
+  opacity: 1;
+}
+
 #app-center > * {
   color: #f0f0f0;
 }

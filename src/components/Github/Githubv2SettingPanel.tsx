@@ -26,7 +26,7 @@ import { useGithubSettings } from '../../hooks/useSettings';
 const Githubv2SettingPanel: React.FC = () => {
   const { githubSettings, updateGithubSettings } = useGithubSettings();
   
-  // Điều chỉnh giá trị mặc định
+  // Adjust default values
   const settings = {
     username: githubSettings?.username ?? "",
     showUserInfo: githubSettings?.showUserInfo ?? true,

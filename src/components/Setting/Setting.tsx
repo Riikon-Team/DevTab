@@ -175,6 +175,20 @@ const Setting = () => {
           <TabPanel value={tabValue} index={6}>
             <NotesSettingPanel />
           </TabPanel>
+
+          <TabPanel value={tabValue} index={99}>
+            <div className="settings-content">
+              <h3>About DevTab</h3>
+              <p>DevTab is a simple and elegant browser extension that helps you manage your browser settings and customize your browser experience.</p>
+              <p>Version: 1.0.0</p>
+              <p>Author: Riikon Team</p>
+              <p>Contact: <a href="mailto:riikon04@gmail.com">riikon04@gmail.com</a></p>
+              <p>Website: <a href="https://riikonteam.io.vn">https://riikonteam.io.vn</a></p>
+              <p>GitHub: <a href="https://github.com/Riikon-Team">https://github.com/Riikon-Team</a></p>
+              <p>License: MIT</p>
+              <p>Copyright © 2025 Riikon Team</p>
+            </div>
+          </TabPanel>
         </Box>
       </Drawer>
     </div>
