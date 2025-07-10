@@ -8,7 +8,6 @@ import {
   Alert,
   IconButton,
   useTheme,
-  Grid,
   Tabs,
   Tab,
   Tooltip,
@@ -129,7 +128,6 @@ const Weather: React.FC = React.memo(() => {
       sx={{
         borderRadius: 2,
         width: "100%",
-        maxWidth: 350,
         boxShadow: 2,
         height: "100%",
         maxHeight: expanded ? "600px" : "190px", 

@@ -3,6 +3,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useState } from "react";
 import "./Setting.css";
 import { useThemeSettings } from "../../hooks/useSettings";
+import { useGenaralSettings } from "../../hooks/useSettings";
 import ClockSettingPanel from "../Clock/ClockSettingPanel";
 import SearchSettingPanel from "../SearchEngine/SearchSettingPanel";
 import BookmarkSettingPanel from "../Bookmark/BookmarkSettingPanel";
@@ -10,6 +11,7 @@ import BackgroundSettingsPanel from "../Background/BackgroundSettingPanel";
 import Githubv2SettingPanel from "../Github/Githubv2SettingPanel";
 import WeatherSettingPanel from "../Weather/WeatherSettingPanel";
 import NotesSettingPanel from "../Notes/NotesSettingPanel";
+import { useSettings } from "../../hooks/useSettings";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,13 +54,47 @@ const Setting = () => {
   const [tabValue, setTabValue] = useState(0);
 
   const { themeSettings, updateThemeSettings } = useThemeSettings();
+  const { generalSettings, updateGeneralSettings } = useGenaralSettings();
+  const { settings, updateAllSettings } = useSettings();
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
+  };
+
+  // Handler export
+  const handleExport = () => {
+    const data = JSON.stringify(settings, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'devtab-settings.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  // Handler import
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const json = JSON.parse(evt.target?.result as string);
+        if (json && typeof json === 'object' && json.general && json.background) {
+          updateAllSettings(json);
+          alert('Import settings thành công!');
+        } else {
+          alert('File không hợp lệ!');
+        }
+      } catch {
+        alert('File không hợp lệ!');
+      }
+    };
+    reader.readAsText(file);
   };
 
   return (
@@ -142,7 +178,30 @@ const Setting = () => {
                   sx={{ width: "80px" }}
                 />
               </div>
+              <div className="setting-item">
+                <label htmlFor="enable-newsfeed">Enable News Feed</label>
+                <Switch
+                  id="enable-newsfeed"
+                  checked={!!generalSettings.enableNewsFeed}
+                  onChange={e => updateGeneralSettings({ enableNewsFeed: e.target.checked })}
+                />
+              </div>
+              <div className="setting-item">
+                <label htmlFor="enable-pomodoro">Enable Pomodoro</label>
+                <Switch
+                  id="enable-pomodoro"
+                  checked={!!generalSettings.enablePomodoro}
+                  onChange={e => updateGeneralSettings({ enablePomodoro: e.target.checked })}
+                />
+              </div>
               <BackgroundSettingsPanel />
+              <div style={{ display: 'flex', gap: 12, margin: '16px 0' }}>
+                <button onClick={handleExport}>Export Settings</button>
+                <label style={{ display: 'inline-block' }}>
+                  <input type="file" accept="application/json" style={{ display: 'none' }} onChange={handleImport} />
+                  <button type="button">Import Settings</button>
+                </label>
+              </div>
             </div>
           </TabPanel>
 

@@ -7,6 +7,8 @@ export type SettingsType = {
     notifications: boolean;
     language: string;
     explanded?: boolean;
+    enableNewsFeed?: boolean;
+    enablePomodoro?: boolean;
   };
 
   background: {
@@ -95,6 +97,8 @@ export const defaultSettings: SettingsType = {
     notifications: true,
     language: "vi-VN",
     explanded: false,
+    enableNewsFeed: true,
+    enablePomodoro: true,
   },
   background: {
     brightness: 0.5,

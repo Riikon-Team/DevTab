@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { SettingsContext, type SettingsContextType } from "../contexts/SettingsContext";
 import type { SettingsType } from "../constants/SettingType";
 
-export const useSettings = (): SettingsContextType => {
+export const useSettings = (): SettingsContextType & { updateAllSettings: (settings: any) => void } => {
   const context = useContext(SettingsContext);
   if (!context) {
     throw new Error("useSettings must be used within a SettingsProvider");
   }
-  return context;
+  const updateAllSettings = (settings: any) => {
+    context.importSettings(JSON.stringify(settings));
+  };
+  return { ...context, updateAllSettings };
 };
 
 export const useBackgroundSettings = () => {

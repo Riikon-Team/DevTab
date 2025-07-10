@@ -7,7 +7,6 @@ import {
   Avatar,
   Link,
   useTheme,
-  Chip,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import PeopleIcon from "@mui/icons-material/People";

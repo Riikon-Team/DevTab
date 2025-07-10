@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
+    sourcemap: false, // Tắt sourcemap production để build nhanh hơn
     rollupOptions: {
       output: {
         manualChunks: {
@@ -18,5 +19,7 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 1000,
+    // Vite đã tự động cache node_modules và build cache
+    // Nếu muốn xóa cache: npx vite --force
   },
 })

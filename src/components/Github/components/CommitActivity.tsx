@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import type { ChartData, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { blue, indigo, purple } from '@mui/material/colors';
+import { blue, indigo } from '@mui/material/colors';
 
 // Register necessary Chart.js components
 ChartJS.register(
@@ -37,7 +37,7 @@ const CommitActivity: React.FC<CommitActivityProps> = ({
   compactMode = false
 }) => {
   const theme = useTheme();
-  const chartRef = useRef<ChartJS>(null);
+  const chartRef = useRef<ChartJS<'bar'>>(null);
   
   // Xử lý dữ liệu cho biểu đồ
   const chartData = useMemo(() => {
@@ -65,12 +65,6 @@ const CommitActivity: React.FC<CommitActivityProps> = ({
   // Màu sắc biểu đồ
   const getChartColor = () => {
     return theme.palette.mode === 'dark' ? blue[300] : indigo[500];
-  };
-
-  const getBackgroundColor = () => {
-    return theme.palette.mode === 'dark'
-      ? `${purple[900]}50`  // Thêm độ trong suốt với '50'
-      : `${blue[100]}50`;
   };
   
   // Chuẩn bị dữ liệu cho Chart.js
@@ -123,8 +117,8 @@ const CommitActivity: React.FC<CommitActivityProps> = ({
     scales: {
       x: {
         grid: {
-          display: false,
-          drawBorder: false
+          display: true,
+          color: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         },
         ticks: {
           color: theme.palette.text.secondary,
@@ -139,10 +133,8 @@ const CommitActivity: React.FC<CommitActivityProps> = ({
       y: {
         beginAtZero: true,
         grid: {
-          color: theme.palette.mode === 'dark' 
-            ? 'rgba(255, 255, 255, 0.05)' 
-            : 'rgba(0, 0, 0, 0.05)',
-          drawBorder: false
+          display: true,
+          color: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         },
         ticks: {
           color: theme.palette.text.secondary,

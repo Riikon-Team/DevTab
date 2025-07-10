@@ -29,7 +29,7 @@ const LanguageStats: React.FC<LanguageStatsProps> = ({
 }) => {
   const theme = useTheme();
   const [tabValue, setTabValue] = useState(0);
-  const chartRef = useRef<ChartJS>(null);
+  const chartRef = useRef<ChartJS<'doughnut'>>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   
   // Xử lý dữ liệu cho biểu đồ
@@ -104,7 +104,7 @@ const LanguageStats: React.FC<LanguageStatsProps> = ({
           padding: 10,
           font: {
             size: fontSize,
-            weight: '500',
+            weight: 500,
           },
           color: theme.palette.text.primary,
         },

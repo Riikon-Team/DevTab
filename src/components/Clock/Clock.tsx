@@ -40,6 +40,7 @@ const Clock: React.FC = () => {
       className={`clock-container text-center ${
         clockSettings.transparentBackground ? "transparent" : ""
       }`}
+      style={{ width: '100%' }}
     >
       <div className="digital-clock">
         {time.toLocaleTimeString(clockSettings.locateCode, {

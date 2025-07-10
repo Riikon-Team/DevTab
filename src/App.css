@@ -30,7 +30,7 @@
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: stretch;
   gap: 1em;
   overflow-y: auto;
   max-height: calc(100vh - 128px); 
@@ -54,7 +54,7 @@
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  align-items: right;
+  align-items: stretch;
   gap: 1em;
   overflow-y: auto;
   max-height: calc(100vh - 128px); 
@@ -90,6 +90,21 @@
 
 #app-center > * {
   color: #f0f0f0;
+}
+
+@keyframes fadeInZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in-zoom-in {
+  animation: fadeInZoomIn 0.7s cubic-bezier(0.4,0,0.2,1);
 }
 
 

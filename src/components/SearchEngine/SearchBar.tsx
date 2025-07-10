@@ -28,8 +28,6 @@ const SearchBar: React.FC = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightIdx, setHighlightIdx] = useState(-1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -38,18 +36,15 @@ const SearchBar: React.FC = () => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     if (query) {
-      setIsLoading(true);
       debounceRef.current = setTimeout(() => {
         fetchSuggestions(query, engineIdx).then((sugs) => {
           if (!ignore) {
             setSuggestions(sugs);
-            setIsLoading(false);
           }
         });
       }, DEBOUNCE_DELAY) as unknown as NodeJS.Timeout;
     } else {
       setSuggestions([]);
-      setIsLoading(false);
     }
     return () => {
       ignore = true;

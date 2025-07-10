@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, CircularProgress, Alert, useTheme } from "@mui/material";
+import { Box, CircularProgress, Alert, useTheme } from "@mui/material";
 import UserInfoCard from "./components/UserInfoCard";
 import LanguageStats from "./components/LanguageStats";
 import GitHubStats from "./components/GitHubStats";
@@ -153,13 +153,18 @@ const Githubv2: React.FC = React.memo(() => {
 
   if (!githubSettings?.enable) return null;
 
+  // Ensure repoCommitCount is Record<string, number>
+  const repoCommitCountNumber: Record<string, number> = Object.fromEntries(
+    Object.entries(data.repoCommitCount || {}).map(([k, v]) => [k, typeof v === 'number' ? v : Number(v)])
+  );
+
   return (
     <Box
       className={`github-container ${settings.compactMode ? "compact" : ""}`}
       sx={{
         padding: settings.compactMode ? 1 : 1.5,
         borderRadius: 2,
-        background: settings.backgroundTransparent,
+        backgroundColor: settings.backgroundTransparent ? "rgba(255,255,255,0.05)" : theme.palette.background.paper,
         backdropFilter: settings.backgroundTransparent ? `blur(${settings.blur}px)` : "none",
         fontSize: settings.fontSize,
         maxWidth: settings.compactMode ? "900px" : "1100px",
@@ -177,74 +182,58 @@ const Githubv2: React.FC = React.memo(() => {
         "& .MuiCardContent-root": {
           padding: settings.compactMode ? "8px !important" : "16px",
         },
-        "& .MuiGrid-container": {
-          width: "100%",
-          margin: 0,
-        },
-        "& .MuiGrid-root": {
-          width: "100%",
-        },
-        "& .MuiGrid-item": {
-          paddingLeft: settings.compactMode ? 1 : 1.5,
-          paddingRight: settings.compactMode ? 1 : 1.5,
-        },
         "& .MuiCard-root": {
-          backgroundColor: theme.palette.background.transparent,  
+          backgroundColor: "transparent",
         },
       }}
     >
-      <Grid container spacing={settings.compactMode ? 1 : 1.5} sx={{ width: "100%", m: 0 }}>
+      <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: settings.compactMode ? 1 : 2 }}>
         {settings.showUserInfo && (
-          <Grid item xs={12}>
+          <Box sx={{ width: "100%", mb: settings.compactMode ? 1 : 2 }}>
             <UserInfoCard
               user={data.user}
               fontSize={settings.fontSize}
               compactMode={settings.compactMode}
             />
-          </Grid>
+          </Box>
         )}
-
-        <Grid container item xs={12} spacing={settings.compactMode ? 1 : 1.5}>
-          {settings.showLanguageStats && (
-            <Grid item xs={12} md={settings.compactMode ? 12 : 6}>
-              <LanguageStats
-                langData={{
-                  repoCount: data.langRepoCount,
-                  starCount: data.langStarCount,
-                  commitCount: data.langCommitCount,
-                }}
-                excludedLanguages={settings.excludedLanguages}
-                chartHeight={settings.chartSize} // Keep chart height for space
-                fontSize={settings.fontSize}
-                compactMode={settings.compactMode}
-              />
-            </Grid>
-          )}
-
-          {settings.showStats && (
-            <Grid item xs={12} md={settings.compactMode ? 12 : 6}>
-              <GitHubStats
-                user={data.user}
-                repoStarCount={data.repoStarCount}
-                repoCommitCount={data.repoCommitCount}
-                fontSize={settings.fontSize}
-                compactMode={settings.compactMode}
-              />
-            </Grid>
-          )}
-        </Grid>
-
+        {settings.showLanguageStats && (
+          <Box sx={{ width: "100%", mb: settings.compactMode ? 1 : 2 }}>
+            <LanguageStats
+              langData={{
+                repoCount: data.langRepoCount,
+                starCount: data.langStarCount,
+                commitCount: data.langCommitCount,
+              }}
+              excludedLanguages={settings.excludedLanguages}
+              chartHeight={settings.chartSize}
+              fontSize={settings.fontSize}
+              compactMode={settings.compactMode}
+            />
+          </Box>
+        )}
+        {settings.showStats && (
+          <Box sx={{ width: "100%", mb: settings.compactMode ? 1 : 2 }}>
+            <GitHubStats
+              user={data.user}
+              repoStarCount={data.repoStarCount}
+              repoCommitCount={repoCommitCountNumber}
+              fontSize={settings.fontSize}
+              compactMode={settings.compactMode}
+            />
+          </Box>
+        )}
         {settings.showCommitActivity && (
-          <Grid item xs={12}>
+          <Box sx={{ width: "100%", mt: settings.compactMode ? 1 : 2 }}>
             <CommitActivity
               commitData={data.quarterCommitCount}
               chartHeight={settings.chartSize * 0.7}
               fontSize={settings.fontSize}
               compactMode={settings.compactMode}
             />
-          </Grid>
+          </Box>
         )}
-      </Grid>
+      </Box>
     </Box>
   );
 });

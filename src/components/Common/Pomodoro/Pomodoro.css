@@ -1,0 +1,68 @@
+.pomodoro-container {
+  background: rgba(30, 30, 40, 0.45);
+  border-radius: 18px;
+  padding: 22px 18px 18px 18px;
+  max-width: 420px;
+  margin: 16px auto;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  text-align: center;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  transition: box-shadow 0.3s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.08);
+}
+.pomodoro-container:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+}
+.pomodoro-timer {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 18px 0 8px 0;
+  letter-spacing: 2px;
+}
+.pomodoro-status {
+  margin-bottom: 16px;
+}
+.pomodoro-status .work {
+  color: #ff9800;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.pomodoro-status .break {
+  color: #4caf50;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.pomodoro-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.pomodoro-settings {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 10px;
+}
+.pomodoro-settings label {
+  font-size: 0.98rem;
+  color: #eee;
+}
+.pomodoro-settings input[type="number"] {
+  width: 44px;
+  margin-left: 6px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background: #181828;
+  color: #fff;
+  padding: 3px 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.pomodoro-settings input[type="number"]:focus {
+  border: 1.5px solid #646cff;
+} 

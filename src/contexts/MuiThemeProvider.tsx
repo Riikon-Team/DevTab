@@ -31,9 +31,6 @@ const MuiThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children })
       background: {
         default: themeColors.background.default,
         paper: themeColors.background.paper,
-        transparentDark: themeColors.background.transparentDark,
-        transparentLight: themeColors.background.transparentLight,
-        transparent: themeColors.background.transparent,
       },
       text: {
         primary: themeColors.text.primary,

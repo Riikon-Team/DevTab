@@ -1,0 +1,44 @@
+.loading-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s cubic-bezier(0.4,0,0.2,1);
+  opacity: 1;
+  pointer-events: all;
+}
+.loading-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.devtab-logo-glow {
+  position: relative;
+  display: inline-block;
+}
+.devtab-text {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 32px #646cff, 0 0 8px #fff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.devtab-shine {
+  position: absolute;
+  top: 0; left: -80%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 60%, rgba(255,255,255,0.7) 90%, rgba(255,255,255,0) 100%);
+  filter: blur(1px);
+  animation: shine-move 0.7s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+  z-index: 2;
+}
+@keyframes shine-move {
+  0% { left: -80%; }
+  100% { left: 120%; }
+} 
