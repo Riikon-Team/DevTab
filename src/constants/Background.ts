@@ -1,4 +1,1 @@
-export interface BackgroundProps {
-  brightness?: number;
-  selectImage?: string[];
-}
+export const IMAGE_LIST: string[] = Array.from({ length: 10 }, (_, i) => `/assets/img/bg/${i}.jpg`);

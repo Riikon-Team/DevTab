@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'DS-Digital';
+  src: url('../../assets/fonts/DS-DIGII.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .clock-container {
   padding: 1rem;
   background: var(--bg-card, #2d2d2d);
@@ -5,6 +12,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: inline-block;
   min-width: 200px;
+  font-family: 'DS-Digital', monospace;
 }
 
 .clock-container.transparent {
@@ -26,27 +34,32 @@
 
 .date {
   font-size: 1rem;
-  color: var(--text-secondary, #aaa);
+  color: #aaa;
   margin-bottom: 0.5rem;
 }
 
 .weekdays {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
 }
 
 .weekday {
   padding: 0.2em 0.5em;
   border-radius: 4px;
   font-size: 0.95em;
-  color: var(--text-muted, #888);
+  color: #888;
   background: transparent;
   transition: background 0.2s, color 0.2s;
 }
 
 .weekday.active {
-  background: var(--primary-color, #646cff);
+  background: var(--primary-main, #646cff);
   color: #fff;
   font-weight: bold;
+}
+
+.digital-clock span {
+  display: inline-block;
+  width: 1.2em;
+  text-align: center;
 }

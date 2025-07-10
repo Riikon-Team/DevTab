@@ -1,7 +1,7 @@
 .searchbar-container {
     display: flex;
     align-items: center;
-    background: var(--bg-card, #2d2d2d);
+    background: var(--background-paper);
     border-radius: 8px;
     padding: 0.5em 1em;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -16,11 +16,6 @@
     box-shadow: none;
     -webkit-backdrop-filter: blur(10px) brightness(0.9);
     backdrop-filter: blur(10px) brightness(0.9);
-}
-
-.searchbar-container.transparent input {
-    background: transparent;
-    color: var(--text-primary, #fff);
 }
 
 .searchbar-engine {
@@ -58,7 +53,7 @@
     width: 100%;
     border: none;
     background: transparent;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
     font-size: 1.1em;
     padding: 0.5em 0.5em;
     outline: none;
@@ -69,7 +64,7 @@
     left: 0;
     right: 0;
     top: 110%;
-    background: var(--bg-card, #2d2d2d);
+    background: var(--background-paper);
     border-radius: 0 0 8px 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     z-index: 10;
@@ -83,14 +78,14 @@
 .searchbar-suggestions li {
     padding: 0.5em 1em;
     cursor: pointer;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
     transition: background 0.15s;
 }
 
 .searchbar-suggestions li.active,
 .searchbar-suggestions li:hover {
-    background: var(--primary-color, #646cff);
-    color: #fff;
+    background: var(--primary-main);
+    color: white;
 }
 
 .searchbar-btn {

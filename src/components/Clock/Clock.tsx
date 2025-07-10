@@ -1,33 +1,46 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Clock.css";
-import { useClockSettings } from "../../contexts/SettingsContext";
+import { useClockSettings } from "../../hooks/useSettings";
 
 const weekDays = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
 
 const Clock: React.FC = () => {
   const { clockSettings } = useClockSettings();
 
-  const computeTime = () => {
+  const computeTime = (timezone: string | number) => {
     const now = new Date();
+    const timezoneOffset =
+      typeof timezone === "string"
+        ? parseFloat(timezone)
+        : timezone || 0;
     const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utcMs + clockSettings.timezone * 3600 * 1000);
+    return new Date(utcMs + timezoneOffset * 3600 * 1000);
   };
-  const [time, setTime] = useState(computeTime);
+  const [time, setTime] = useState(computeTime(clockSettings.timezone));
   const timerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    const updateTime = () => setTime(computeTime());
+    const updateTime = () => setTime(computeTime(clockSettings.timezone));
     updateTime();
     timerRef.current = window.setInterval(updateTime, 1000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [clockSettings.timezone]);
+
 
   const currentDay = time.getDay();
 
+  if (!clockSettings.enable) {
+    return null;
+  }
+
   return (
-    <div className={`clock-container text-center ${clockSettings.transparentBackground ? "transparent" : ""}`}>
+    <div
+      className={`clock-container text-center ${
+        clockSettings.transparentBackground ? "transparent" : ""
+      }`}
+    >
       <div className="digital-clock">
         {time.toLocaleTimeString(clockSettings.locateCode, {
           hour12: clockSettings.hour12,
