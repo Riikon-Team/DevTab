@@ -1,94 +1,92 @@
-// filepath: /e:/code/newDevTab/DevTab/src/App.tsx
-import {defineComponent, ref, onMounted} from 'vue';
-import {SEARCH_ENGINES, BACKGROUNDS} from './constants/main';
-import SearchHandler from './components/SearchHandler';
-import BookmarkFromBrowser from './components/BookmarkFromBrowser';
-import Bookmark from './components/Bookmark';
-import Clock from './components/Clock'
-import Widget from './components/Widget';
-import IframeWindow from './components/IframeWindow';
-import Setting from "@/components/Setting";
-import {randomBackground} from './utils/search';
+import React, { Suspense } from "react";
+import "./App.css";
+import Clock from "./components/Clock/Clock";
+// import Weather from "./components/Weather/Weather";
+// import Background from "./components/Background/Background";
+import Setting from "./components/Setting/Setting";
+import SearchBar from "./components/SearchEngine/SearchBar";
+// import Bookmark from "./components/Bookmark/Bookmark";
+// import Githubv2 from "./components/Github/Githubv2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useGenaralSettings } from "./hooks/useSettings";
+// import Notes from "./components/Notes/Notes";
+import LoadingOverlay from "./components/Common/LoadingOverlay";
 
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const searchEngine = ref<keyof typeof SEARCH_ENGINES>('google');
-    const searchQuery = ref('');
-    const searchSuggestions = ref<string[]>([]);
-    const backgroundImage = ref('');
-    // Currently support only closed and open popup
-    const isSettingOpen = ref(false)
+const LazyBackground = React.lazy(() => import("./components/Background/Background"));
+const LazyBookmark = React.lazy(() => import("./components/Bookmark/Bookmark"));
+const LazyGithubv2 = React.lazy(() => import("./components/Github/Githubv2"));
+const LazyWeather = React.lazy(() => import("./components/Weather/Weather"));
+const LazyNotes = React.lazy(() => import("./components/Notes/Notes"));
+const LazyPomodoro = React.lazy(() => import("./components/Common/Pomodoro/Pomodoro"));
+const LazyNewsFeed = React.lazy(() => import("./components/NewsFeed/NewsFeed"));
 
-    const performSearch = () => {
-      const searchUrl = SEARCH_ENGINES[searchEngine.value].url + encodeURIComponent(searchQuery.value);
-      window.location.href = searchUrl;
-    };
+function App() {
+  const { generalSettings, updateGeneralSettings } = useGenaralSettings();
 
-    const toggleSetting = (state: boolean) => {
-      isSettingOpen.value = state
-    }
-
-    onMounted(() => {
-      backgroundImage.value = randomBackground(BACKGROUNDS);
-    });
-
-    return () => (
-      <div
-        class="container-fluid d-flex justify-content-center align-items-center position-relative w-100"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundImage.value})`,
-          height: '100vh',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative'
-        }}
-      >
-        <Widget/>
-        <IframeWindow
-          id="music-player"
-          url="https://konnn04.is-a.dev/m"
-          icon="https://raw.githubusercontent.com/konnn04/m/refs/heads/main/assets/img/ico.jpg"
-          orientation='horizontal'
-          style="position: absolute; bottom: 10px; right: 10px; width: 32px; height: 32px;"
-        />
-
-        {/* <IframeWindow
-          id="youtube"
-          url="https://www.youtube.com/"
-          icon="https://raw.githubusercontent.com/konnn04/m/refs/heads/main/assets/img/ico.jpg"
-          style="position: absolute; bottom: 10px; right: 50px; width: 32px; height: 32px;"
-        /> */}
-
-        <BookmarkFromBrowser/>
-        <Clock style="position: absolute; top: 10px; right: 10px; color: white"/>
-        <main class="d-flex flex-column align-items-center w-100" style="max-width: 600px">
-          <div class="text-center">
-            <img src="/assets/img/logo.gif" alt="" style="width: 100px"/>
-            <h1 class="display-1 text-white">DevTab</h1>
-          </div>
-          <SearchHandler
-            searchEngine={searchEngine.value}
-            searchQuery={searchQuery.value}
-            searchSuggestions={searchSuggestions.value}
-            onSearch={(query: string) => searchQuery.value = query}
-            onEnter={performSearch}
-            onEngineChange={(value: string) => searchEngine.value = value as keyof typeof SEARCH_ENGINES}
-            onSuggestionsChange={(suggestions: string[]) => searchSuggestions.value = suggestions}
-          />
-          <Bookmark/>
-
-          {isSettingOpen.value && <Setting onClose={() => toggleSetting(false)}/>}
-          {/*Setting button*/}
-          <button
-            class="position-absolute btn btn-sm btn-link text-white p-0"
-            style={{bottom: "3rem", right: "10px"}}
-            onClick={() => toggleSetting(true)}
-          >
-            <i class="h3 bi bi-gear"></i>
-          </button>
-        </main>
+  return (
+    <>
+      <LoadingOverlay />
+      <Suspense fallback={<div>Loading background...</div>}>
+        <LazyBackground />
+      </Suspense>
+      <header id="app-header">
+        {generalSettings.explanded && (
+          <Suspense fallback={<div>Loading bookmarks...</div>}>
+            <LazyBookmark />
+          </Suspense>
+        )}
+      </header>
+      <div id="app">
+        {generalSettings.explanded && (
+          <section id="app-left">
+            <Suspense fallback={<div>Loading github...</div>}>
+              <LazyGithubv2 />
+            </Suspense>
+          </section>
+        )}
+        <section id="app-center">
+          <h1>DevTab</h1>
+          <SearchBar />
+        </section>
+        {generalSettings.explanded && (
+          <section id="app-right">
+            <div className="fade-in-zoom-in"><Clock /></div>
+            <Suspense fallback={<div>Loading weather...</div>}>
+              <div className="fade-in-zoom-in"><LazyWeather /></div>
+            </Suspense>
+            <Suspense fallback={<div>Loading notes...</div>}>
+              <div className="fade-in-zoom-in"><LazyNotes /></div>
+            </Suspense>
+            {generalSettings.enablePomodoro && (
+              <Suspense fallback={<div>Loading pomodoro...</div>}>
+                <div className="fade-in-zoom-in"><LazyPomodoro enable={true} /></div>
+              </Suspense>
+            )}
+            {generalSettings.enableNewsFeed && (
+              <Suspense fallback={<div>Loading newsfeed...</div>}>
+                <div className="fade-in-zoom-in"><LazyNewsFeed enable={true} /></div>
+              </Suspense>
+            )}
+          </section>
+        )}
       </div>
-    );
-  },
-});
+      <footer id="app-footer">
+        <div id="footer-left">
+        </div>
+        <div id="footer-center">
+        </div>
+        <div id="footer-right">
+          <div style={{ display: "flex", alignItems: "center" }} className="footer-right-content">
+            <Setting />
+            <div className="expand-button btn" onClick={() => updateGeneralSettings({ explanded: !generalSettings.explanded })}>
+              {generalSettings.explanded ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+export default App;

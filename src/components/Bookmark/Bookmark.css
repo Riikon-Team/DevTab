@@ -1,0 +1,217 @@
+/* Bookmark Bar styles */
+.bookmark-bar {
+    background-color: rgba(var(--background-surface-rgb, 26, 26, 26), 0.8) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.bookmark-bar.MuiPaper-root {
+    background-image: none !important;
+}
+
+.bookmark-bar.transparent {
+    background-color: transparent !important;
+}
+
+.bookmark-container {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    width: 100%;
+    height: 56px;
+    position: relative;
+    outline: none;
+}
+
+.bookmarks-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.bookmarks-display {
+    display: inline-flex;
+    transition: transform 0.3s ease-out;
+    position: relative;
+    min-width: 100%;
+}
+
+.nav-button {
+    color: var(--text-secondary) !important;
+    transition: opacity 0.3s ease-out !important;
+    z-index: 10;
+    position: absolute;
+    background-color: rgba(var(--background-surface-rgb, 26, 26, 26), 0.7) !important;
+}
+
+.nav-button.hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.nav-button.left {
+    left: 0.5rem;
+    position: absolute;
+    top: 12px;
+}
+
+.nav-button.right {
+    right: 0.5rem;
+    position: absolute;
+    top: 12px;
+}
+
+.nav-button{
+    opacity: 0!important;
+}
+
+.bookmark-bar:hover .nav-button {
+    opacity: 1 !important;
+}
+
+.nav-button:disabled {
+    color: var(--text-disabled) !important;
+    opacity: 0 !important;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--divider);
+    margin: 0 8px;
+    position: absolute;
+    right: 40px;
+}
+
+.manager-button {
+    color: var(--primary-main) !important;
+    position: absolute;
+    right: 8px;
+    z-index: 10;
+}
+
+.bookmark-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    min-width: 40px;
+    margin: 0 2px;
+    flex-shrink: 0;
+    width: fit-content;
+}
+
+.bookmark-item.horizontal {
+    flex-direction: row;
+}
+
+.bookmark-item:hover {
+    background-color: rgba(var(--primary-main-rgb, 100, 108, 255), 0.08);
+    transform: translateY(-2px);
+}
+
+.bookmark-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    overflow: hidden;
+    color: var(--primary-main);
+}
+
+.bookmark-title {
+    font-size: 12px;
+    max-width: 72px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.bookmark-item.horizontal .bookmark-title {
+    margin-left: 8px;
+    text-align: left;
+}
+
+.folder-icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.folder-count {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background-color: var(--secondary-light);
+    color: white;
+    font-size: 9px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Folder Menu */
+.bookmark-folder-menu {
+    max-height: 70vh;
+}
+
+.folder-menu-header {
+    padding: 8px 16px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--divider);
+    font-size: 14px;
+}
+
+.folder-menu-content {
+    max-height: calc(70vh - 40px);
+    overflow-y: auto;
+}
+
+.menu-favicon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+
+.subfolder-container {
+    margin-left: 12px;
+}
+
+.folder-indicator {
+    margin-left: auto;
+    font-size: 10px;
+}
+
+.active-folder {
+    background-color: rgba(var(--primary-main-rgb, 100, 108, 255), 0.08);
+}
+
+/* Add to your index.css if not already there */
+:root {
+    --background-surface-rgb: 26, 26, 26;
+    --primary-main-rgb: 100, 108, 255;
+}
+
+[data-theme="light"] {
+    --background-surface-rgb: 249, 249, 249;
+    --primary-main-rgb: 100, 108, 255;
+}

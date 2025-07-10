@@ -1,0 +1,1 @@
+export const IMAGE_LIST: string[] = Array.from({ length: 10 }, (_, i) => `/assets/img/bg/${i}.jpg`);

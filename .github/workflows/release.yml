@@ -31,20 +31,73 @@ jobs:
         run: npm run build
 
       - name: Zip dist folder
-        run: cd dist && zip -r ../devtab.zip *
+        run: cd dist && zip -r ../devtab_${{ github.ref_name }}.zip *
 
-      - name: Get tag version
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Get current tag
+        id: current_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 ${{ steps.current_tag.outputs.TAG }}^ 2>/dev/null || echo "")
+          echo "TAG=$PREVIOUS_TAG" >> $GITHUB_OUTPUT
+
+      - name: Check if this is a beta release
+        id: check_beta
+        run: |
+          IS_BETA=$(echo "${{ steps.current_tag.outputs.TAG }}" | grep -E '\-beta|\-alpha|\-rc' && echo "true" || echo "false")
+          echo "IS_BETA=$IS_BETA" >> $GITHUB_OUTPUT
+          
+          # Determine beta type for release title
+          if echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-beta"; then
+            echo "BETA_TYPE=Beta" >> $GITHUB_OUTPUT
+          elif echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-alpha"; then
+            echo "BETA_TYPE=Alpha" >> $GITHUB_OUTPUT
+          elif echo "${{ steps.current_tag.outputs.TAG }}" | grep -q "\-rc"; then
+            echo "BETA_TYPE=Release Candidate" >> $GITHUB_OUTPUT
+          else
+            echo "BETA_TYPE=Preview" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate changelog from PRs
+        id: changelog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_TAG: ${{ steps.current_tag.outputs.TAG }}
+          PREVIOUS_TAG: ${{ steps.previous_tag.outputs.TAG }}
+        run: |
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "No previous tag found. Listing all merged PRs for this release."
+            PR_LIST=$(gh pr list --state merged --limit 100 --json number,title,author,mergedAt --template '{{range .}}## #{{.number}} {{.title}} (@{{.author.login}}){{printf "\n"}}Merged at: {{.mergedAt}}{{printf "\n\n"}}{{end}}')
+          else
+            echo "Generating changelog between $PREVIOUS_TAG and $CURRENT_TAG"
+            PR_LIST=$(gh pr list --state merged --search "merged:>$(git log -1 --format=%aI $PREVIOUS_TAG)" --limit 100 --json number,title,author,mergedAt --template '{{range .}}## #{{.number}} {{.title}} (@{{.author.login}}){{printf "\n"}}Merged at: {{.mergedAt}}{{printf "\n\n"}}{{end}}')
+          fi
+          
+          echo "# Changes in $CURRENT_TAG" > changelog.md
+          echo "" >> changelog.md
+          
+          # Add Beta notice if applicable
+          if [[ "${{ steps.check_beta.outputs.IS_BETA }}" == "true" ]]; then
+            echo "## ⚠️ ${{ steps.check_beta.outputs.BETA_TYPE }} RELEASE" >> changelog.md
+            echo "This is a ${{ steps.check_beta.outputs.BETA_TYPE }} release and may contain bugs or incomplete features." >> changelog.md
+            echo "" >> changelog.md
+          fi
+          
+          if [ -z "$PR_LIST" ]; then
+            echo "No pull requests found for this release." >> changelog.md
+          else
+            echo "$PR_LIST" >> changelog.md
+          fi
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: devtab_v{{ github.ref_name }}.zip
-          name: Update v${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          files: devtab_${{ github.ref_name }}.zip
+          name: ${{ steps.check_beta.outputs.IS_BETA == 'true' && format('{0} Release', steps.check_beta.outputs.BETA_TYPE) || 'Release' }} ${{ github.ref_name }}
+          body_path: changelog.md
           draft: false
-          prerelease: false
-          generate_release_notes: true
+          prerelease: ${{ steps.check_beta.outputs.IS_BETA == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

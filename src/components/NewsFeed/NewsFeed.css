@@ -1,0 +1,93 @@
+.newsfeed-container {
+  background: rgba(30, 30, 40, 0.45);
+  border-radius: 18px;
+  padding: 22px 18px 18px 18px;
+  max-width: 420px;
+  margin: 16px auto;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  transition: box-shadow 0.3s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.08);
+}
+.newsfeed-container:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+}
+.newsfeed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.newsfeed-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.newsfeed-header button {
+  padding: 5px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #646cff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.newsfeed-header button:hover {
+  background: #4e54c8;
+}
+.newsfeed-source {
+  font-size: 0.98rem;
+  color: #ffd700;
+  margin-bottom: 8px;
+}
+.newsfeed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.newsfeed-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 10px;
+}
+.newsfeed-thumb {
+  width: 54px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 7px;
+  background: #222;
+  flex-shrink: 0;
+}
+.newsfeed-title {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.01rem;
+  transition: color 0.2s;
+  display: block;
+  line-height: 1.3;
+}
+.newsfeed-title:hover {
+  color: #ffd700;
+  text-decoration: underline;
+}
+.newsfeed-error {
+  color: #ff5252;
+  margin-bottom: 8px;
+}
+@media (max-width: 600px) {
+  .newsfeed-container {
+    max-width: 98vw;
+    padding: 10px 2vw;
+  }
+  .newsfeed-thumb {
+    width: 38px;
+    height: 26px;
+  }
+} 

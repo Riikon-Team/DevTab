@@ -1,0 +1,47 @@
+.notes-container {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.notes-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.notes-container .MuiTextField-root .MuiOutlinedInput-root {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notes-container .MuiBox-root::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.notes-container .MuiBox-root::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.notes-container .MuiBox-root::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.notes-container .MuiBox-root::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notes-container .MuiGrid-item {
+  animation: fadeIn 0.3s ease-in-out;
+}
