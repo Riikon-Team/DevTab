@@ -112,7 +112,7 @@ function createBetaRelease(version) {
       rl.close();
     });
   } catch (error) {
-    console.error('Lỗi khi tạo beta release:', error);
+    console.error('Lỗi khi tạo beta release:', error); 
     rl.close();
   }
 }
