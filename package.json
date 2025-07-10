@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite build --watch",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "version:patch": "npm version patch -m \"Release v%s\"",
+    "version": "node scripts/sync-version.js && git add public/manifest.json",
+    "version:minor": "npm version minor -m \"Release v%s\"",
+    "version:major": "npm version major -m \"Release v%s\"",
+    "version:beta": "node scripts/beta-release.js",
+    "preversion": "node scripts/sync-version.js pre",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

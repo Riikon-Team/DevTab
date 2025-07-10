@@ -18,7 +18,9 @@ function App() {
     <>
       <Background brightness={0.5} />
       <header id="app-header">
-        <Bookmark showLabels={true} />
+        {generalSettings.explanded && (
+          <Bookmark />
+        )}
       </header>
       <div id="app">
         {generalSettings.explanded && (

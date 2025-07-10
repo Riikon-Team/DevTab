@@ -35,10 +35,9 @@ const Weather: React.FC = React.memo(() => {
   const [currentDay, setCurrentDay] = useState(0);
   const [currentHourlyIndex, setCurrentHourlyIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [expanded, setExpanded] = useState(false); // Trạng thái mở rộng
+  const [expanded, setExpanded] = useState(false); 
   const { weatherSettings } = useWeatherSettings();
 
-  // Settings with defaults
   const settings = useMemo(
     () => ({
       enable: weatherSettings?.enable !== undefined ? weatherSettings.enable : true,
@@ -51,7 +50,6 @@ const Weather: React.FC = React.memo(() => {
     [weatherSettings]
   );
 
-  // Font sizes based on settings
   const fontSizes = useMemo(
     () => ({
       location: settings.fontSize,
@@ -68,14 +66,12 @@ const Weather: React.FC = React.memo(() => {
     [settings.fontSize]
   );
 
-  // Weather background style
   const weatherBackgroundStyle = useMemo(() => ({
     background: "transparent",
     backdropFilter: "blur(10px)",
     backgroundColor: "transparent"
   }), []);
 
-  // Format date helper function
   const formatDate = useCallback((date: Date) => {
     return date.toLocaleDateString("vi-VN", {
       weekday: "short",
@@ -84,7 +80,6 @@ const Weather: React.FC = React.memo(() => {
     });
   }, []);
 
-  // Bọc fetchWeather trong useCallback để tránh tạo lại hàm mới mỗi lần render
   const fetchWeather = useCallback(async () => {
     try {
       setIsRefreshing(true);
@@ -110,14 +105,12 @@ const Weather: React.FC = React.memo(() => {
     }
   }, [settings.location, settings.tempScale]);
 
-  // Update weather when day or hourly index changes
   const updateWeatherData = useCallback((day: number, hourIndex: number) => {
     if (forecastData && forecastData.data[day] && forecastData.data[day].detail[hourIndex]) {
       setWeatherData(forecastData.data[day].detail[hourIndex]);
     }
   }, [forecastData]);
 
-  // Initial data fetch and refresh interval
   useEffect(() => {
     if (settings.enable) {
       fetchWeather();
@@ -126,7 +119,6 @@ const Weather: React.FC = React.memo(() => {
     }
   }, [settings.enable, settings.refreshInterval, fetchWeather]);
 
-  // Đơn giản hóa: nếu component bị vô hiệu hóa, return null
   if (!settings.enable) {
     return null;
   }
@@ -184,7 +176,6 @@ const Weather: React.FC = React.memo(() => {
           </Alert>
         ) : weatherData && forecastData ? (
           <>
-            {/* Weather Location and Date - Responsive layout */}
             <Box
               sx={{ 
                 display: "flex", 
@@ -207,7 +198,6 @@ const Weather: React.FC = React.memo(() => {
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                {/* Chỉ hiển thị nút refresh khi mở rộng */}
                 {expanded && (
                   <Tooltip title="Refresh weather data">
                     <IconButton
@@ -240,7 +230,6 @@ const Weather: React.FC = React.memo(() => {
               </Box>
             </Box>
 
-            {/* Hiển thị ngày tháng chỉ khi mở rộng */}
             {expanded && (
               <Typography
                 variant="body2"
@@ -251,7 +240,6 @@ const Weather: React.FC = React.memo(() => {
               </Typography>
             )}
 
-            {/* Current Weather Display - Thu gọn/mở rộng */}
             <Box
               sx={{
                 textAlign: "center",
@@ -286,9 +274,7 @@ const Weather: React.FC = React.memo(() => {
               </Box>
             </Box>
 
-            {/* Phần mở rộng chứa dự báo giờ và ngày */}
             <Collapse in={expanded} sx={{ flexGrow: 1 }}>
-              {/* Hourly Forecast - Chỉ hiển thị khi mở rộng */}
               <Box
                 sx={{
                   display: "flex",
@@ -306,63 +292,63 @@ const Weather: React.FC = React.memo(() => {
                   mb: 1
                 }}
               >
-                <Grid container spacing={0.5}>
+                <Box sx={{ display: "flex", gap: 0.5, minWidth: "max-content" }}>
                   {forecastData.data[0].detail.map((hourData, index) => (
-                    <Grid item xs={3} key={index}>
+                    <Box
+                      key={index}
+                      onClick={() => {
+                        setCurrentHourlyIndex(index);
+                        updateWeatherData(0, index);
+                      }}
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        backgroundColor: 
+                          (index === currentHourlyIndex && currentDay === 0)
+                            ? theme.palette.primary.main + "33" 
+                            : "transparent",
+                        "&:hover": {
+                          backgroundColor: theme.palette.action.hover,
+                          transform: "translateY(-2px)",
+                          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        },
+                        transition: "all 0.2s ease",
+                        minWidth: 60,
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Typography fontWeight="medium" sx={{ fontSize: fontSizes.hourTime }}>
+                        {hourData.updatedAt}
+                      </Typography>
+
+                      <Typography sx={{ my: 0.5, fontSize: fontSizes.emoji }}>
+                        {getEmojiByWeather(hourData.weather)}
+                      </Typography>
+
+                      <Typography fontWeight="bold" sx={{ fontSize: fontSizes.hourTemp }}>
+                        {hourData.tempature}
+                      </Typography>
+
                       <Box
-                        onClick={() => {
-                          setCurrentHourlyIndex(index);
-                          updateWeatherData(0, index);
-                        }}
                         sx={{
-                          p: 0.5,
-                          textAlign: "center",
-                          borderRadius: 1,
-                          cursor: "pointer",
-                          backgroundColor: 
-                            (index === currentHourlyIndex && currentDay === 0)
-                              ? theme.palette.primary.main + "33" // 20% opacity
-                              : "transparent",
-                          "&:hover": {
-                            backgroundColor: theme.palette.action.hover,
-                            transform: "translateY(-2px)",
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                          },
-                          transition: "all 0.2s ease",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          mt: 0.3,
                         }}
                       >
-                        <Typography fontWeight="medium" sx={{ fontSize: fontSizes.hourTime }}>
-                          {hourData.updatedAt}
+                        <WaterDropIcon sx={{ mr: 0.25, fontSize: fontSizes.caption }} />
+                        <Typography sx={{ fontSize: fontSizes.caption }}>
+                          {hourData.humidity}
                         </Typography>
-
-                        <Typography sx={{ my: 0.5, fontSize: fontSizes.emoji }}>
-                          {getEmojiByWeather(hourData.weather)}
-                        </Typography>
-
-                        <Typography fontWeight="bold" sx={{ fontSize: fontSizes.hourTemp }}>
-                          {hourData.tempature}
-                        </Typography>
-
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            mt: 0.3,
-                          }}
-                        >
-                          <WaterDropIcon sx={{ mr: 0.25, fontSize: fontSizes.caption }} />
-                          <Typography sx={{ fontSize: fontSizes.caption }}>
-                            {hourData.humidity}
-                          </Typography>
-                        </Box>
                       </Box>
-                    </Grid>
+                    </Box>
                   ))}
-                </Grid>
+                </Box>
               </Box>
 
-              {/* Day Navigation */}
               <Box
                 sx={{
                   display: "flex",
@@ -402,7 +388,6 @@ const Weather: React.FC = React.memo(() => {
                 </IconButton>
               </Box>
 
-              {/* Day Tabs */}
               <Tabs
                 value={currentDay}
                 onChange={(_, newValue) => {
@@ -435,80 +420,79 @@ const Weather: React.FC = React.memo(() => {
                 })}
               </Tabs>
 
-              {/* Hourly Forecast cho các ngày khác */}
               {currentDay > 0 && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    overflowX: "auto",
-                    pb: 0.5,
-                    "&::-webkit-scrollbar": {
-                      height: 4,
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: "rgba(0,0,0,0.2)",
-                      borderRadius: 2,
-                    },
-                  }}
-                >
-                  <Grid container spacing={0.5}>
-                    {forecastData.data[currentDay].detail.map((hourData, index) => (
-                      <Grid item xs={3} key={index}>
-                        <Box
-                          onClick={() => {
-                            setCurrentHourlyIndex(index);
-                            updateWeatherData(currentDay, index);
-                          }}
-                          sx={{
-                            p: 0.5,
-                            textAlign: "center",
-                            borderRadius: 1,
-                            cursor: "pointer",
-                            backgroundColor:
-                              index === currentHourlyIndex
-                                ? theme.palette.primary.main + "33" // 20% opacity
-                                : "transparent",
-                            "&:hover": {
-                              backgroundColor: theme.palette.action.hover,
-                              transform: "translateY(-2px)",
-                              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                            },
-                            transition: "all 0.2s ease",
-                          }}
-                        >
-                          <Typography fontWeight="medium" sx={{ fontSize: fontSizes.hourTime }}>
-                            {hourData.updatedAt}
-                          </Typography>
+                              <Box
+                sx={{
+                  display: "flex",
+                  overflowX: "auto",
+                  pb: 0.5,
+                  "&::-webkit-scrollbar": {
+                    height: 4,
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    borderRadius: 2,
+                  },
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 0.5, minWidth: "max-content" }}>
+                  {forecastData.data[currentDay].detail.map((hourData, index) => (
+                    <Box
+                      key={index}
+                      onClick={() => {
+                        setCurrentHourlyIndex(index);
+                        updateWeatherData(currentDay, index);
+                      }}
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        backgroundColor:
+                          index === currentHourlyIndex
+                            ? theme.palette.primary.main + "33" // 20% opacity
+                            : "transparent",
+                        "&:hover": {
+                          backgroundColor: theme.palette.action.hover,
+                          transform: "translateY(-2px)",
+                          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        },
+                        transition: "all 0.2s ease",
+                        minWidth: 60,
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Typography fontWeight="medium" sx={{ fontSize: fontSizes.hourTime }}>
+                        {hourData.updatedAt}
+                      </Typography>
 
-                          <Typography sx={{ my: 0.5, fontSize: fontSizes.emoji }}>
-                            {getEmojiByWeather(hourData.weather)}
-                          </Typography>
+                      <Typography sx={{ my: 0.5, fontSize: fontSizes.emoji }}>
+                        {getEmojiByWeather(hourData.weather)}
+                      </Typography>
 
-                          <Typography fontWeight="bold" sx={{ fontSize: fontSizes.hourTemp }}>
-                            {hourData.tempature}
-                          </Typography>
+                      <Typography fontWeight="bold" sx={{ fontSize: fontSizes.hourTemp }}>
+                        {hourData.tempature}
+                      </Typography>
 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              mt: 0.3,
-                            }}
-                          >
-                            <WaterDropIcon sx={{ mr: 0.25, fontSize: fontSizes.caption }} />
-                            <Typography sx={{ fontSize: fontSizes.caption }}>
-                              {hourData.humidity}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          mt: 0.3,
+                        }}
+                      >
+                        <WaterDropIcon sx={{ mr: 0.25, fontSize: fontSizes.caption }} />
+                        <Typography sx={{ fontSize: fontSizes.caption }}>
+                          {hourData.humidity}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ))}
                 </Box>
+              </Box>
               )}
               
-              {/* Updated Info - Chỉ hiển thị khi mở rộng */}
               <Box sx={{ mt: "auto", pt: 0.5, textAlign: "right" }}>
                 <Typography
                   variant="caption"

@@ -57,12 +57,6 @@ const Githubv2SettingPanel: React.FC = () => {
     }
   }, [settings.username]);
   
-  useEffect(() => {
-    if (settings.username && settings.username !== newUsername) {
-      setNewUsername(settings.username);
-    }
-  }, [githubSettings, settings.username, newUsername]);
-  
   const handleAddExcludedLanguage = () => {
     if (newLanguage.trim() && !settings.excludedLanguages.includes(newLanguage.trim())) {
       updateGithubSettings({ 

@@ -159,13 +159,18 @@ div.btn {
 @supports (scrollbar-width: thin) {
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--text-secondary) transparent;
+    scrollbar-color: transparent transparent; /* Ban đầu hoàn toàn trong suốt */
+  }
+  
+  *:hover {
+    scrollbar-color: var(--text-secondary) transparent; /* Chỉ hiện khi hover */
   }
 }
 
+/* Mặc định scrollbar gần như không nhìn thấy */
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 4px; /* Giảm từ 6px xuống 4px */
+  height: 4px; /* Giảm từ 6px xuống 4px */
 }
 
 *::-webkit-scrollbar-track {
@@ -173,12 +178,20 @@ div.btn {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--text-secondary);
+  background-color: rgba(255,255,255,0.05); /* Giảm độ mờ đục xuống */
   border-radius: 4px;
-  border: 2px solid transparent;
+  border: 1px solid transparent; /* Giảm border từ 2px xuống 1px */
   background-clip: content-box;
+  opacity: 0; /* Bắt đầu với opacity = 0 */
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+/* Chỉ hiển thị thanh cuộn khi hover vào container cha */
+*:hover > ::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background-color: rgba(255,255,255,0.1); /* Vẫn mờ nhưng có thể nhìn thấy */
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: var(--text-primary);
+  background-color: rgba(255,255,255,0.2); /* Khi hover trực tiếp lên thumb */
 }

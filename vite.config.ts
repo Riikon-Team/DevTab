@@ -15,7 +15,6 @@ export default defineConfig({
           'date-vendor': ['date-fns'],
           'axios-vendor': ['axios'],
         },
-        chunkSizeWarningLimit: 1000, // Increase warning limit
       },
     },
     chunkSizeWarningLimit: 1000,

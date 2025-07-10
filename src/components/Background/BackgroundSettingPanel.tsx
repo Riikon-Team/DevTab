@@ -12,7 +12,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Grid,
+  Box,
 } from "@mui/material";
 import { useBackgroundSettings } from "../../hooks/useSettings";
 import { IMAGE_LIST } from "../../constants/Background";
@@ -135,9 +135,9 @@ const BackgroundSettingsPanel: React.FC = () => {
         <>
           <div className="setting-label">Available Images</div>
           <div className="image-gallery">
-            <Grid container spacing={2}>
+            <Box>
               {IMAGE_LIST.map((image, index) => (
-                <Grid item xs={4} key={index}>
+                <Box key={index} sx={{ width: '33.33%', p: 1, boxSizing: 'border-box', display: 'inline-block' }}>
                   <Card
                     className={`image-card ${
                       backgroundSettings.selectedImages.includes(image) ? "selected" : ""
@@ -162,9 +162,9 @@ const BackgroundSettingsPanel: React.FC = () => {
                       />
                     </CardContent>
                   </Card>
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           </div>
         </>
       )}

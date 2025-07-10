@@ -282,7 +282,7 @@ const Notes: React.FC = React.memo(() => {
         boxShadow: 1,
         position: 'relative',
         fontSize: settings.fontSize,
-        height: settings.expandedView ? '80vh' : '30vh',
+        height: settings.expandedView ? '80vh' : '50vh',
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -397,37 +397,48 @@ const Notes: React.FC = React.memo(() => {
 
       {/* Notes grid */}
       {!loading && notes.length > 0 && (
-        <>
-          <Grid container spacing={2} sx={{ mb: 2, overflowY: 'auto', height: '50vh' }}>
-            {paginatedNotes.map((note) => (
-              <Grid item key={note.id} xs={12} sm={settings.expandedView ? 12 : 6} md={settings.expandedView ? 12 : 6} lg={settings.expandedView ? 12 : 3}>
-                <Card 
-                  sx={{ 
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    backgroundColor: note.color || '#ffffff',
-                    color: getContrastText(note.color || '#ffffff'),
-                    boxShadow: note.pinned ? '0 3px 10px rgba(0,0,0,0.2)' : '0 1px 5px rgba(0,0,0,0.05)',
-                    border: note.pinned ? `1px solid ${theme.palette.primary.main}` : 'none',
-                    position: 'relative',
-                    '&:hover': {
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 6px 12px rgba(0,0,0,0.15)',
-                    },
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+            overflowY: 'auto',
+            maxHeight: settings.expandedView ? 'calc(80vh - 120px)' : 'calc(50vh - 120px)',
+            pr: 1,
+            mb: 2,
+          }}
+        >
+          {paginatedNotes.map((note) => (
+            <Card 
+              key={note.id}
+              sx={{ 
+                width: '100%',
+                maxWidth: 400,
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: note.color || '#ffffff',
+                color: getContrastText(note.color || '#ffffff'),
+                boxShadow: note.pinned ? '0 3px 10px rgba(0,0,0,0.2)' : '0 1px 5px rgba(0,0,0,0.05)',
+                border: note.pinned ? `1px solid ${theme.palette.primary.main}` : 'none',
+                position: 'relative',
+                '&:hover': {
+                  transform: 'translateY(-3px)',
+                  boxShadow: '0 6px 12px rgba(0,0,0,0.15)',
+                },
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              }}
+            >
+              {/* Pin indicator */}
+              <Box sx={{ position: 'absolute', top: 4, right: 4 }}>
+                <IconButton 
+                  size="small" 
+                  onClick={() => handleTogglePin(note.id)}
+                  sx={{ color: getContrastText(note.color || '#ffffff') }}
                 >
-                  {/* Pin indicator */}
-                  <Box sx={{ position: 'absolute', top: 4, right: 4 }}>
-                    <IconButton 
-                      size="small" 
-                      onClick={() => handleTogglePin(note.id)}
-                      sx={{ color: getContrastText(note.color || '#ffffff') }}
-                    >
-                      {note.pinned ? <PushPinIcon fontSize="small" /> : <PushPinOutlinedIcon fontSize="small" />}
-                    </IconButton>
-                  </Box>
+                  {note.pinned ? <PushPinIcon fontSize="small" /> : <PushPinOutlinedIcon fontSize="small" />}
+                </IconButton>
+              </Box>
                   
                   <CardContent sx={{ 
                     p: settings.expandedView ? 2 : 1.5,
@@ -593,23 +604,21 @@ const Notes: React.FC = React.memo(() => {
                     </Box>
                   )}
                 </Card>
-              </Grid>
-            ))}
-          </Grid>
-          
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-              <Pagination 
-                count={totalPages}
-                page={page}
-                onChange={(_, value) => setPage(value)}
-                color="primary"
-                size="small"
-              />
-            </Box>
-          )}
-        </>
+          ))}
+        </Box>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+          <Pagination 
+            count={totalPages}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            color="primary"
+            size="small"
+          />
+        </Box>
       )}
 
       {/* Floating Action Button */}

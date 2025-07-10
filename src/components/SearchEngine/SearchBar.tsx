@@ -31,7 +31,7 @@ const SearchBar: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<number | null>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     let ignore = false;
@@ -46,7 +46,7 @@ const SearchBar: React.FC = () => {
             setIsLoading(false);
           }
         });
-      }, DEBOUNCE_DELAY);
+      }, DEBOUNCE_DELAY) as unknown as NodeJS.Timeout;
     } else {
       setSuggestions([]);
       setIsLoading(false);
@@ -56,6 +56,16 @@ const SearchBar: React.FC = () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
   }, [query, engineIdx]);
+
+  // Luôn đồng bộ engineIdx với searchSettings.defaultEngine nếu thay đổi
+  useEffect(() => {
+    if (
+      typeof searchSettings?.defaultEngine === 'number' &&
+      searchSettings.defaultEngine !== engineIdx
+    ) {
+      setEngineIdx(searchSettings.defaultEngine);
+    }
+  }, [searchSettings?.defaultEngine]);
 
   const handleSearch = (q?: string) => {
     const searchQuery = q ?? query;
@@ -113,7 +123,7 @@ const SearchBar: React.FC = () => {
           ref={inputRef}
           type="text"
           className="searchbar-input"
-          placeholder="Search..."
+          placeholder={`Search with ${SEARCH_ENGINES[engineIdx].name}...`}
           value={query}
           onChange={handleInput}
           onKeyDown={handleKeyDown}

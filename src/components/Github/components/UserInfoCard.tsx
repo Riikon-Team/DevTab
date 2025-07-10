@@ -6,7 +6,6 @@ import {
   Typography,
   Avatar,
   Link,
-  Grid,
   useTheme,
   Chip,
 } from "@mui/material";
@@ -39,121 +38,88 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({
       }}
     >
       <CardContent sx={{ p: compactMode ? 1.5 : 2 }}>
-        <Grid container spacing={2} alignItems="center" sx={{ width: "100%" }}>
-          <Grid item>
-            <div
-              style={{ position: "relative", display: "flex", gap: "10px", alignItems: "center" }}
+        <Box display="flex" alignItems="center" gap={2}>
+          <Avatar
+            src={user.avatarUrl}
+            alt={user.name || user.login}
+            sx={{
+              width: compactMode ? 40 : 60,
+              height: compactMode ? 40 : 60,
+              fontSize: compactMode ? "1rem" : "1.5rem",
+            }}
+          />
+          <Box>
+            <Typography
+              variant="h6"
+              component="div"
+              fontWeight="bold"
+              sx={{ fontSize: fontSize + 4 }}
             >
-              <Avatar
-                src={user.avatarUrl}
-                alt={user.name || user.login}
-                sx={{
-                  width: compactMode ? 40 : 60,
-                  height: compactMode ? 40 : 60,
-                  fontSize: compactMode ? "1rem" : "1.5rem",
-                }}
-              />
-              <Box
-                sx={{
-                  mt: compactMode ? 0.5 : 1,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
+              {user.name || user.login}
+            </Typography>
+            <Link
+              href={user.htmlUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="hover"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 0.5,
+                fontSize: fontSize - 1,
+                color: theme.palette.primary.main,
+              }}
+            >
+              @{user.login}
+            </Link>
+          </Box>
+        </Box>
+        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <PeopleIcon fontSize="small" />
+            <Typography sx={{ fontSize: fontSize }}>
+              {user.followers} followers
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1}>
+            <PersonIcon fontSize="small" />
+            <Typography sx={{ fontSize: fontSize }}>
+              {user.following} following
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1}>
+            <FolderIcon fontSize="small" />
+            <Typography sx={{ fontSize: fontSize }}>
+              {user.publicRepos} repositories
+            </Typography>
+          </Box>
+          {user.blog && (
+            <Box display="flex" alignItems="center" gap={1}>
+              <LanguageIcon fontSize="small" />
+              <Link
+                href={user.blog.startsWith("http") ? user.blog : `https://${user.blog}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="hover"
+                sx={{ fontSize: fontSize }}
               >
-                <Typography
-                  variant="h6"
-                  component="div"
-                  fontWeight="bold"
-                  sx={{ fontSize: fontSize + 4 }}
-                >
-                  {user.name || user.login}
-                </Typography>
-
-                <Link
-                  href={user.htmlUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  underline="hover"
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    fontSize: fontSize - 1,
-                    mb: 1,
-                  }}
-                >
-                  @{user.login}
-                </Link>
-              </Box>
-            </div>
-          </Grid>
-
-          <Grid item xs>
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 1.5,
-                  mt: compactMode ? 0.5 : 1,
-                  fontSize: fontSize - 1,
-                }}
-              >
-                <Chip
-                  icon={<PeopleIcon fontSize="small" />}
-                  label={`${user.followers} followers`}
-                  size={compactMode ? "small" : "medium"}
-                  variant="outlined"
-                  sx={{ fontSize: fontSize - 1 }}
-                />
-
-                <Chip
-                  icon={<PersonIcon fontSize="small" />}
-                  label={`${user.following} following`}
-                  size={compactMode ? "small" : "medium"}
-                  variant="outlined"
-                  sx={{ fontSize: fontSize - 1 }}
-                />
-
-                <Chip
-                  icon={<FolderIcon fontSize="small" />}
-                  label={`${user.publicRepos} repositories`}
-                  size={compactMode ? "small" : "medium"}
-                  variant="outlined"
-                  sx={{ fontSize: fontSize - 1 }}
-                />
-
-                {user.blog && (
-                  <Chip
-                    icon={<LanguageIcon fontSize="small" />}
-                    label={user.blog}
-                    component={Link}
-                    href={user.blog.startsWith("http") ? user.blog : `https://${user.blog}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size={compactMode ? "small" : "medium"}
-                    variant="outlined"
-                    clickable
-                    sx={{ fontSize: fontSize - 1 }}
-                  />
-                )}
-
-                {user.email && (
-                  <Chip
-                    icon={<EmailIcon fontSize="small" />}
-                    label={user.email}
-                    component={Link}
-                    href={`mailto:${user.email}`}
-                    size={compactMode ? "small" : "medium"}
-                    variant="outlined"
-                    clickable
-                    sx={{ fontSize: fontSize - 1 }}
-                  />
-                )}
-              </Box>
+                {user.blog}
+              </Link>
             </Box>
-          </Grid>
-        </Grid>
+          )}
+          {user.email && (
+            <Box display="flex" alignItems="center" gap={1}>
+              <EmailIcon fontSize="small" />
+              <Link
+                href={`mailto:${user.email}`}
+                underline="hover"
+                sx={{ fontSize: fontSize }}
+              >
+                {user.email}
+              </Link>
+            </Box>
+          )}
+        </Box>
       </CardContent>
     </Card>
   );
