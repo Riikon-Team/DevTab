@@ -98,7 +98,7 @@ function createBetaRelease(version) {
     
     console.log(`\nĐã tạo thành công beta release phiên bản ${version}`);
     console.log('\nĐể hoàn tất release:');
-    console.log('1. git push && git push --tags');
+    console.log('1. git push ; git push --tags');
     console.log('2. Build extension: npm run build');
     console.log('3. Zip thư mục dist thành devtab_v' + version + '.zip');
     console.log('4. Tạo GitHub Release với tag v' + version);
@@ -106,7 +106,7 @@ function createBetaRelease(version) {
     rl.question('\nBạn có muốn push ngay? (y/n): ', (answer) => {
       if (answer.toLowerCase() === 'y') {
         console.log('Đang push lên repository...');
-        execSync('git push && git push --tags', { stdio: 'inherit' });
+        execSync('git push ; git push --tags', { stdio: 'inherit' });
         console.log('Push thành công!');
       }
       rl.close();
