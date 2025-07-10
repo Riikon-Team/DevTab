@@ -106,7 +106,8 @@ function createBetaRelease(version) {
     rl.question('\nBạn có muốn push ngay? (y/n): ', (answer) => {
       if (answer.toLowerCase() === 'y') {
         console.log('Đang push lên repository...');
-        execSync('git push ; git push --tags', { stdio: 'inherit' });
+        execSync('git push origin HEAD');
+        execSync('git push origin --tags', { stdio: 'inherit' });
         console.log('Push thành công!');
       }
       rl.close();
