@@ -51,7 +51,11 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #fff;
+  background-color: #00000000;
   object-fit: contain;
   margin-left: 0.2em;
+}
+
+.engine-dropdown li.active .engine-icon {
+  background-color: #fff;
 }
