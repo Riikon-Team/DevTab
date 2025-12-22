@@ -70,11 +70,11 @@ export function removeBookmark(index: number) {
     try {
         const rawBookmark = localStorage.getItem("bookmark")
         if (!rawBookmark) {
-            return false
+            return true
         }
 
         const parsedBookmark = JSON.parse(rawBookmark) as Bookmark[]
-        if (!parsedBookmark[index]) return false
+        if (!parsedBookmark[index]) return true
         localStorage.setItem("bookmark", JSON.stringify([...parsedBookmark.filter((ele, i) => i !== index)]))
         return true
     }

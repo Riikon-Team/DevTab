@@ -7,6 +7,7 @@ import quoteReducer from './slices/quoteSlice'
 import formReducer from './slices/formSlice'
 import sidebarReducer from './slices/sidebarSlice'
 import bookmarkReducer from './slices/bookmarkSlice'
+import todoReducer from './slices/todolistSlice'
 
 export const store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
         quote: quoteReducer,
         form: formReducer,
         sidebar: sidebarReducer,
+        todo: todoReducer
     }
 })
 
