@@ -13,6 +13,8 @@ import WeatherDialog from "./components/sidebar-dialog/WeatherDialog"
 import BookmarkDialog from "./components/sidebar-dialog/BookmarkDialog"
 import { AddBookmarkForm } from "./components/forms/bookmark/AddBookmarkForm"
 import { EditBookmarkForm } from "./components/forms/bookmark/EditBookmarkForm"
+import TodoDialog from "./components/sidebar-dialog/TodoDialog"
+import { AddTodoForm } from "./components/forms/todo/AddTodoForm"
 
 export default function App() {
     const dispatch = useDispatch()
@@ -48,10 +50,12 @@ export default function App() {
             <GitUserForm />
             <AddBookmarkForm />
             <EditBookmarkForm />
+            <AddTodoForm />
             {/* Dialog here */}
             <GithubStatDialog closeSidebar={setSidebarState} />
             <WeatherDialog closeSidebar={setSidebarState} />
             <BookmarkDialog closeSidebar={setSidebarState} />
+            <TodoDialog closeSidebar={setSidebarState} />
         </>
     )
 }

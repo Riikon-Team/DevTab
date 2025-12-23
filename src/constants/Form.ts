@@ -11,10 +11,22 @@ export type EditBookmarkForm = {
     index: number
 }
 
+export type AddTodoForm = {
+    isOpen: boolean
+}
+
+export type EditTodoForm = {
+    isOpen: boolean,
+    index: number
+}
+
+
 export type FormState = {
     updateGitUser: UpdateGitUserForm,
     addBookmark: AddBookmarkForm,
     editBookmark: EditBookmarkForm,
+    addTodo: AddTodoForm,
+    editTodo: EditTodoForm
 }
 
 export const defaultValue: FormState = {
@@ -28,4 +40,11 @@ export const defaultValue: FormState = {
         isOpen: false,
         index: -1,
     },
+    addTodo: {
+        isOpen: false
+    },
+    editTodo: {
+        isOpen: false,
+        index: -1
+    }
 }
