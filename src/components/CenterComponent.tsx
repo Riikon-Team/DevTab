@@ -7,6 +7,7 @@ import QuoteComponent from "./quote/QuoteComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { BookmarkComponent } from "./bookmark/BookmarkComponent";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 export default function CenterComponent() {
     //Redux state
@@ -26,13 +27,16 @@ export default function CenterComponent() {
 
     return (
         <div className="flex-1 flex flex-col gap-5 items-center justify-center h-full px-6 md:px-auto relative">
-            <div className="absolute top-1 flex gap-1">
-                {
-                    bookmark.map((ele, index) => (
-                        <BookmarkComponent bookmark={ele} />
-                    ))
-                }
-            </div>
+            <ScrollArea className="max-w-full absolute! top-1 hidden lg:block">
+                <div className="mb-3 lg:flex gap-1 justify-center">
+                    {
+                        bookmark.map((ele, index) => (
+                            <BookmarkComponent bookmark={ele} />
+                        ))
+                    }
+                </div>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
             <Clock />
             <InputGroup
                 className="md:w-full lg:w-120 h-12 backdrop-blur-sm"

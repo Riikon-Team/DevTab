@@ -156,7 +156,7 @@ const CurrentWeatherComponent = (props: { currentWeatherData: WeatherData | null
                                 </div>
                             </div>
                             <div className="flex flex-col items-center justify-center">
-                                <p className="">{currentWeatherData.weather}</p>
+                                <p className="text-center">{currentWeatherData.weather}</p>
                                 <div className="flex items-center gap-1">
                                     <Droplet size={16} />
                                     <p>
