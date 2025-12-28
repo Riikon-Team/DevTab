@@ -101,7 +101,7 @@ export default function WeatherComponent() {
                                     {currentWeatherData.tempature}
                                 </p>
                             </div>
-                            <p className="mt-2 mb-1">{currentWeatherData.weather}</p>
+                            <p className="mt-2 mb-1 text-center">{currentWeatherData.weather}</p>
                             <div className="flex items-center gap-1">
                                 <MapPin size={16} />
                                 <p>{currentWeatherData.location}</p>
