@@ -53,7 +53,7 @@ export default function TodoDialog(props: { closeSidebar: (open: boolean) => voi
             dispatcher(initTodo({ listTodo: data }))
         }
         catch (err) {
-
+            console.log(err)
         }
         finally {
             setTimeout(() => {
@@ -89,18 +89,26 @@ export default function TodoDialog(props: { closeSidebar: (open: boolean) => voi
                         </div>
 
                         <div className="h-full w-full flex flex-col">
-                            <div className="w-full flex-1 pb-2 flex flex-col gap-3 overflow-x-auto scrollbar-thin custom-scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent">
+                            <div className="w-full flex-1 pb-2 flex gap-3 overflow-x-auto scrollbar-thin custom-scrollbar scrollbar-thumb-gray-500 scrollbar-track-transparent">
                                 {groupedTodo.map(
                                     ([tag, listTodo]) => (
                                         <div
                                             key={tag.name}
                                             className={`border rounded-2xl w-60 p-3`}
-                                            style={{ backgroundColor: tag.color || 'transparent' }}
+
                                         >
                                             <h3 className="font-semibold">{tag.name}</h3>
                                             <div className="my-4">
                                                 {listTodo.map((item, index) => (
-                                                    <TodoComponent todo={item} index={index} />
+                                                    <div key={index} className="flex items-stretch mb-2">
+                                                        <div
+                                                            className={`rounded-r-2xl ${tag.color === "transparent" ? "w-0" : "w-2"} rounded-full`}
+                                                            style={{ backgroundColor: tag.color }}
+                                                        ></div>
+                                                        <div className={`flex-1 rounded-r-2xl border ${tag.color === "transparent" ? "rounded-l-2xl" : ""}`}>
+                                                            <TodoComponent todo={item} index={index} />
+                                                        </div>
+                                                    </div>
                                                 ))}
                                             </div>
                                             <div className="flex justify-center">
@@ -119,13 +127,6 @@ export default function TodoDialog(props: { closeSidebar: (open: boolean) => voi
                                         </div>
                                     )
                                 )}
-                                {todo.listTodo.map((ele, index) => (
-                                    <div
-                                        key={ele.name}
-                                        className="me-1 p-3 flex bg-neutral-800 rounded-3xl gap-3"
-                                    >
-                                    </div>
-                                ))}
                             </div>
                         </div>
                     </div>
