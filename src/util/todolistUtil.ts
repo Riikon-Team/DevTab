@@ -3,16 +3,27 @@ import { TodoList, TodoTag } from "@/constants/TodoList";
 export function mapTodoByTag(listTodo: TodoList[]) {
     const result = new Map<TodoTag, TodoList[]>()
     const defaultTag: TodoTag = { name: "No category", color: "transparent" }
+
     if (listTodo.length === 0) {
         result.set(defaultTag, [])
+        return result
     }
 
-    listTodo.forEach(ele => {
-        if (!ele.tag) ele.tag = defaultTag
-        const listTodo = result.get(ele.tag) || []
-        listTodo.push(ele)
-        result.set(ele.tag, listTodo)
+    listTodo.forEach(e => {
+        const ele = { ...e }
+        const currentTag = ele.tag || defaultTag
+
+        const existingTagKey = Array.from(result.keys()).find(
+            (t) => t.name === currentTag.name
+        )
+
+        const finalKey = existingTagKey || currentTag
+
+        const list = result.get(finalKey) || []
+        list.push(ele)
+        result.set(finalKey, list)
     })
+
     return result
 }
 

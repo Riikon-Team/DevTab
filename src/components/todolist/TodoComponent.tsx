@@ -7,10 +7,12 @@ type TodoComponentProps = {
 
 export function TodoComponent(props: TodoComponentProps) {
     return (
-        <div className="rounded-2xl border">
-            <p className="text-semibold">{props.todo.name}</p>
-            <p className="text-sm">{props.todo.description}</p>
-            <p>{props.todo.deadline}</p>
+        <div className="p-2">
+            <div className="flex flex-col gap-2 mb-4">
+                <p className="font-semibold">{props.todo.name}</p>
+                <p className="text-sm">{props.todo.description}</p>
+            </div>
+            <p className="text-end text-xs text-neutral-500">{props.todo.deadline}</p>
         </div>
     )
 }
