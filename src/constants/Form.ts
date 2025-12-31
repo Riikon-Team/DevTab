@@ -1,3 +1,5 @@
+import { TodoList } from "./TodoList"
+
 export type UpdateGitUserForm = {
     isOpen: boolean,
 }
@@ -15,6 +17,11 @@ export type AddTodoForm = {
     isOpen: boolean
 }
 
+export type ViewTodoForm = {
+    isOpen: boolean
+    todo: TodoList | null
+}
+
 export type EditTodoForm = {
     isOpen: boolean,
     index: number
@@ -26,7 +33,8 @@ export type FormState = {
     addBookmark: AddBookmarkForm,
     editBookmark: EditBookmarkForm,
     addTodo: AddTodoForm,
-    editTodo: EditTodoForm
+    editTodo: EditTodoForm,
+    viewTodo: ViewTodoForm
 }
 
 export const defaultValue: FormState = {
@@ -46,5 +54,9 @@ export const defaultValue: FormState = {
     editTodo: {
         isOpen: false,
         index: -1
+    },
+    viewTodo: {
+        isOpen: false,
+        todo: null
     }
 }
