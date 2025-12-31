@@ -15,11 +15,10 @@ import { AddBookmarkForm } from "./components/forms/bookmark/AddBookmarkForm"
 import { EditBookmarkForm } from "./components/forms/bookmark/EditBookmarkForm"
 import TodoDialog from "./components/sidebar-dialog/TodoDialog"
 import { AddTodoForm } from "./components/forms/todo/AddTodoForm"
+import { ViewTodoForm } from "./components/forms/todo/ViewTodoForm"
 
 export default function App() {
     const dispatch = useDispatch()
-    const githubUsername = useSelector((state: RootState) => state.githubData.username)
-
     const { setOpenMobile } = useSidebar()
 
     const storageUsername = localStorage.getItem("githubUsername")
@@ -51,6 +50,7 @@ export default function App() {
             <AddBookmarkForm />
             <EditBookmarkForm />
             <AddTodoForm />
+            <ViewTodoForm/>
             {/* Dialog here */}
             <GithubStatDialog closeSidebar={setSidebarState} />
             <WeatherDialog closeSidebar={setSidebarState} />
