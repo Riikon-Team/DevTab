@@ -26,7 +26,7 @@ export default function Clock() {
             </p>
             <p className="text-2xl text-center mt-2">
                 {currentDate.getDate().toString().padStart(2, '0')}/
-                {currentDate.getMonth().toString().padStart(2, '0')}/
+                {(currentDate.getMonth() + 1).toString().padStart(2, '0')}/
                 {currentDate.getFullYear().toString().padStart(2, '0')}
             </p>
             <div className="flex gap-2 justify-center mt-5 select-none">

@@ -131,7 +131,12 @@ export default function WeatherDialog(props: { closeSidebar: (open: boolean) => 
 
 const getDateString = (dateOffset: number) => {
     const date = new Date(new Date(Date.now() + dateOffset * (24 * 3600000)).setHours(0, 0, 0, 0))
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+
+    return `${day}/${month}/${year}`
 }
 
 const CurrentWeatherComponent = (props: { currentWeatherData: WeatherData | null, currentWeatherStorage: WeatherStorage | null }) => {
