@@ -1,3 +1,8 @@
+export type DisplaySetting = {
+    weather: boolean,
+    bookmark: boolean,
+}
+
 export type WeatherSetting = {
     isEnable: boolean,
     location: string,
@@ -21,11 +26,16 @@ export type GithubStatSetting = {
 }
 
 export type SettingType = {
+    display: DisplaySetting,
     weather: WeatherSetting,
     githubStat: GithubStatSetting
 }
 
 export const defaultSetting: SettingType = {
+    display: {
+        weather: true,
+        bookmark: true
+    },
     weather: {
         isEnable: true,
         location: "Ho Chi Minh City",

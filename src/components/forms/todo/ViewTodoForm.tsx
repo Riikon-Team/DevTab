@@ -145,7 +145,7 @@ export function ViewTodoForm() {
                         <p className="text-center text-red-500">{message}</p>
 
                     </div>
-                    {/* <div className="flex justify-end gap-5">
+                    <div className="flex justify-end gap-5">
                         <button
                             className="rounded p-2 px-3 bg-accent text-accent-foreground border cursor-pointer hover:bg-neutral-700"
                             onClick={closeForm}
@@ -162,7 +162,7 @@ export function ViewTodoForm() {
                                 Save changes
                             </span>
                         </button>
-                    </div> */}
+                    </div>
                 </div>
             </div >
             : <></>

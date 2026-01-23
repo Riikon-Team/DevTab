@@ -19,7 +19,7 @@ export const store = configureStore({
         quote: quoteReducer,
         form: formReducer,
         sidebar: sidebarReducer,
-        todo: todoReducer
+        todo: todoReducer,
     }
 })
 
